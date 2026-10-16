@@ -159,12 +159,6 @@ for (const file of files) {
             `The entry needs a newer Pi Pocket than the checks use (${pocketVersion}, extension API ${POCKET_API}). A maintainer must update POCKET_REF in the workflow.`,
         );
     }
-
-    const entry = parsed.get(file.file)!;
-
-    if (entry.revoked.some((revoked) => revoked.commit === entry.source.commit)) {
-        report(file.file, "source.commit is in revoked. Pin a commit that is not revoked.");
-    }
 }
 
 /** Which entry claims each name: a module, an extension, or a tool. */

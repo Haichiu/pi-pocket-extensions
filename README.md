@@ -123,10 +123,11 @@ Do this when a pinned commit has a security problem or a bad bug.
     ]
     ```
 
-3. If `source.commit` is that commit, change `source` and `files` to a good commit. If there is no good commit, remove the entry. Note: when the entry is gone, Pi Pocket cannot warn about its revoked commits.
-4. Open a pull request. A maintainer merges it, and CI makes the new `index.json`.
+3. If there is a good commit, change `source` and `files` to it. Pi Pocket then offers it as an update.
+4. If there is no good commit, keep `source` as it is. Then `source.commit` is in `revoked` too, and the extension is withdrawn: Pi Pocket does not show it in search and does not install it. Do not remove the entry. When the entry is gone, Pi Pocket cannot warn about its revoked commits.
+5. Open a pull request. A maintainer merges it, and CI makes the new `index.json`.
 
-The check fails when `source.commit` is in `revoked`. Pi Pocket warns each owner who has a revoked commit installed.
+Pi Pocket warns each owner who has a revoked commit installed. When that extension is on, it tells the owner to turn it off.
 
 ## Run the scripts
 
