@@ -87,9 +87,9 @@ Give each extension and each tool a name of its own, with a prefix, such as `acm
 You cannot use these names:
 
 - A module `name` that starts with `pocket-`.
-- The name of a built-in module: `prompt`, `artifacts`, `browser`, `subagents`, `schedules`, `goals`, `plan`, `guard`, `codemode`, `memory`, `pip`, `triggers`, and `gallery`.
+- The name of a built-in module: `prompt`, `artifacts`, `browser`, `subagents`, `agent-teams`, `schedules`, `goals`, `plan`, `guard`, `codemode`, `memory`, `pip`, `triggers`, and `gallery`.
 - The extension name `coding-tools`, or an extension name that starts with `pocket-`.
-- A built-in tool name: `read`, `write`, `edit`, `bash`, `artifact`, `browser`, `subagent`, `schedule`, `codemode`, `memory`, `sessions`, `session_read`, `session_start`, `session_send`, `session_follow`, `session_stop`, `session_archive`, `session_schedule`, `approvals`, `watch_pr`, `repo_watch`, and `session_watch_pr`.
+- A built-in tool name: `read`, `write`, `edit`, `bash`, `artifact`, `browser`, `subagent`, `team`, `schedule`, `codemode`, `memory`, `sessions`, `session_read`, `session_start`, `session_send`, `session_follow`, `session_stop`, `session_archive`, `session_schedule`, `approvals`, `watch_pr`, `repo_watch`, and `session_watch_pr`.
 - A module, extension, or tool name that an entry in the index has now. The first entry keeps the name.
 
 A module `name` has 2 to 64 characters: `a-z`, `0-9`, `-`, and `_`. The first character is a letter or a digit.

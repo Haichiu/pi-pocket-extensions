@@ -23,7 +23,7 @@
             "description": "The module's name: its file is <name>.ts. Not a built-in module's name, and not pocket-*.",
             "type": "string",
             "maxLength": 64,
-            "pattern": "^(?!pocket-)(?!(?:prompt|artifacts|browser|subagents|schedules|goals|plan|guard|codemode|memory|pip|triggers|gallery)$)[a-z0-9][a-z0-9_-]{1,63}$"
+            "pattern": "^(?!pocket-)(?!(?:prompt|artifacts|browser|subagents|agent-teams|schedules|goals|plan|guard|codemode|memory|pip|triggers|gallery)$)[a-z0-9][a-z0-9_-]{1,63}$"
         },
         "title": {
             "$ref": "#/$defs/line",
@@ -156,7 +156,7 @@
                         "type": "string",
                         "minLength": 1,
                         "maxLength": 210,
-                        "pattern": "^(?!(?:read|write|edit|bash|artifact|browser|subagent|schedule|codemode|memory|sessions|session_read|session_start|session_send|session_follow|session_stop|session_archive|session_schedule|approvals|watch_pr|repo_watch|session_watch_pr)$)[A-Za-z0-9_-]{1,64}$"
+                        "pattern": "^(?!(?:read|write|edit|bash|artifact|browser|subagent|team|schedule|codemode|memory|sessions|session_read|session_start|session_send|session_follow|session_stop|session_archive|session_schedule|approvals|watch_pr|repo_watch|session_watch_pr)$)[A-Za-z0-9_-]{1,64}$"
                     }
                 },
                 "readOnlyTools": {
