@@ -83,7 +83,9 @@ export function check(
     }
 
     if (schema.type !== undefined) {
-        const types = Array.isArray(schema.type) ? (schema.type as string[]) : [schema.type as string];
+        const types = Array.isArray(schema.type)
+            ? (schema.type as string[])
+            : [schema.type as string];
 
         if (!types.some((type) => hasType(value, type))) {
             return [...problems, `${at} must be of type ${types.join(" or ")}`];
@@ -94,8 +96,13 @@ export function check(
         problems.push(`${at} must be ${JSON.stringify(schema.const)}`);
     }
 
-    if (Array.isArray(schema.enum) && !schema.enum.some((each) => canonical(each) === canonical(value))) {
-        problems.push(`${at} must be one of ${schema.enum.map((each) => JSON.stringify(each)).join(", ")}`);
+    if (
+        Array.isArray(schema.enum) &&
+        !schema.enum.some((each) => canonical(each) === canonical(value))
+    ) {
+        problems.push(
+            `${at} must be one of ${schema.enum.map((each) => JSON.stringify(each)).join(", ")}`,
+        );
     }
 
     if (typeof value === "string") {
@@ -144,7 +151,9 @@ export function check(
 
         if (typeof schema.items === "object" && schema.items !== null) {
             value.forEach((item, index) => {
-                problems.push(...check(item, schema.items as Schema, schemas, `${where}[${index}]`, root));
+                problems.push(
+                    ...check(item, schema.items as Schema, schemas, `${where}[${index}]`, root),
+                );
             });
         }
     }
@@ -167,7 +176,13 @@ export function check(
                 problems.push(`${field(key)} is not a known field`);
             } else if (typeof schema.additionalProperties === "object") {
                 problems.push(
-                    ...check(item, schema.additionalProperties as Schema, schemas, field(key), root),
+                    ...check(
+                        item,
+                        schema.additionalProperties as Schema,
+                        schemas,
+                        field(key),
+                        root,
+                    ),
                 );
             }
         }

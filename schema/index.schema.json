@@ -5,10 +5,7 @@
     "$comment": "Matches parseIndex in Pi Pocket's src/server/gallery/entry.ts. The whole file is 4 MiB at most. parseIndex also refuses two entries with one name.",
     "type": "object",
     "additionalProperties": false,
-    "required": [
-        "format",
-        "extensions"
-    ],
+    "required": ["format", "extensions"],
     "properties": {
         "format": {
             "const": 1

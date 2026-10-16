@@ -1,0 +1,45 @@
+{
+    "name": "acme-clock",
+    "title": "Clock",
+    "description": "A clock tool: the date and time now, in any time zone.",
+    "tags": [
+        "time",
+        "tool"
+    ],
+    "author": {
+        "name": "Ada Lovelace",
+        "github": "ada"
+    },
+    "version": "1.0.0",
+    "source": {
+        "repo": "ada/pocket-clock",
+        "commit": "0123456789abcdef0123456789abcdef01234567",
+        "path": "acme-clock"
+    },
+    "files": [
+        {
+            "name": "acme-clock.ts",
+            "sha256": "dc519abf9be03573586e7128cfb766a303c22a97db5f58f9b4b6ae6435c7558e",
+            "size": 827
+        }
+    ],
+    "pocketApi": 1,
+    "minPocket": "0.14.0",
+    "declares": {
+        "extensions": [
+            "acme-clock"
+        ],
+        "tools": [
+            "acme_clock"
+        ],
+        "readOnlyTools": [
+            "acme_clock"
+        ],
+        "hooks": [],
+        "sections": [],
+        "wraps": [],
+        "routes": [],
+        "client": null,
+        "access": "owner"
+    }
+}

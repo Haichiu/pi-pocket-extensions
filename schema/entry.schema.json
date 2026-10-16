@@ -46,9 +46,7 @@
         "author": {
             "type": "object",
             "additionalProperties": false,
-            "required": [
-                "name"
-            ],
+            "required": ["name"],
             "properties": {
                 "name": {
                     "$ref": "#/$defs/line",
@@ -69,10 +67,7 @@
         "source": {
             "type": "object",
             "additionalProperties": false,
-            "required": [
-                "repo",
-                "commit"
-            ],
+            "required": ["repo", "commit"],
             "properties": {
                 "repo": {
                     "type": "string",
@@ -98,11 +93,7 @@
             "items": {
                 "type": "object",
                 "additionalProperties": false,
-                "required": [
-                    "name",
-                    "sha256",
-                    "size"
-                ],
+                "required": ["name", "sha256", "size"],
                 "properties": {
                     "name": {
                         "type": "string",
@@ -224,19 +215,10 @@
                     }
                 },
                 "client": {
-                    "enum": [
-                        null,
-                        "owner",
-                        "steer",
-                        "view"
-                    ]
+                    "enum": [null, "owner", "steer", "view"]
                 },
                 "access": {
-                    "enum": [
-                        "owner",
-                        "steer",
-                        "view"
-                    ]
+                    "enum": ["owner", "steer", "view"]
                 }
             }
         },
@@ -247,10 +229,7 @@
             "items": {
                 "type": "object",
                 "additionalProperties": false,
-                "required": [
-                    "commit",
-                    "reason"
-                ],
+                "required": ["commit", "reason"],
                 "properties": {
                     "commit": {
                         "type": "string",
