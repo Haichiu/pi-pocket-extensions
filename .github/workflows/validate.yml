@@ -21,8 +21,9 @@ permissions:
 
 env:
     # The Pi Pocket that the checks use: its entry reader (src/server/gallery/entry.ts, from 0.14.0) and its
-    # test helpers. main follows the newest Pi Pocket. Pin a tag here if main breaks the checks.
-    POCKET_REF: main
+    # test helpers. The 0.14 release branch has them now. After the release, change this to the tag v0.14.0,
+    # then to main, when main has 0.14.
+    POCKET_REF: release/0.14.0
 
 jobs:
     validate:
