@@ -379,11 +379,19 @@ async function loadTest(entry: Entry, got: Map<string, Uint8Array>): Promise<str
     }
 }
 
+/**
+ * Whether the entry is withdrawn: its pinned commit is revoked. Pi Pocket does not install it, so its files are not
+ * tested: a withdrawn entry that no longer loads must not stop the checks of every other entry.
+ */
+function withdrawn(entry: Entry): boolean {
+    return entry.revoked.some((each) => each.commit === entry.source.commit);
+}
+
 try {
     for (const file of selected) {
         const entry = parsed.get(file);
 
-        if (entry === undefined || problems.get(file)!.length > 0) {
+        if (entry === undefined || problems.get(file)!.length > 0 || withdrawn(entry)) {
             continue;
         }
 
@@ -406,7 +414,13 @@ let failed = 0;
 
 for (const [file, list] of problems) {
     if (list.length === 0) {
-        const tested = selected.includes(file) ? "the files and the load test" : "the format";
+        const entry = parsed.get(file);
+        const tested =
+            entry !== undefined && withdrawn(entry)
+                ? "the format; withdrawn, so its files are not tested"
+                : selected.includes(file)
+                  ? "the files and the load test"
+                  : "the format";
 
         console.log(`OK    entries/${file} (${tested})`);
         continue;
