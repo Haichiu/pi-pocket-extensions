@@ -112,13 +112,13 @@ You add a theme the same way: a pull request adds one file, `entries/<name>.json
 3. Get the entry. **The easy way:** in Pi Pocket, choose the theme in **Appearance** and tap **Share…**. Pi Pocket does its theme check, and makes the entry with the files that the theme loads, with their sizes and hashes. Give the theme a `description` in `theme.json` first. **By hand:** copy the example in the [README](README.md#a-themes-entry).
 4. Complete the entry as for an extension (step 3 above), and open a pull request. In the description, tell what the theme changes.
 
-A theme's `name` has 2 to 48 characters: `a-z`, `0-9`, and `-`. It must not be `pocket`, `desktop`, or the name of a palette or theme that comes with Pi Pocket, and no other entry can have it.
+A theme's `name` has 2 to 48 characters: `a-z`, `0-9`, and `-`. It must not be an id that Pi Pocket keeps: `desktop`, a theme that comes with Pi Pocket (`pocket`, `lantern`), or one of its palettes (such as `tokyo-night`). No other entry can have it.
 
 ### What CI checks for a theme
 
 - The entry agrees with `schema/theme.schema.json`, and Pi Pocket's own reader accepts it.
 - The files at the pinned commit have the sizes and SHA-256 hashes in the entry.
-- Pi Pocket's theme check accepts the files: `theme.json` and `colors.toml` are correct, and the CSS loads only files of the theme, by relative paths. CI does not run a load test, because a theme runs no code.
+- Pi Pocket's theme check accepts the files: `theme.json`, `colors.toml`, and `colors-light.toml` are correct, and the CSS loads only files of the theme, by relative paths. CI does not run a load test, because a theme runs no code.
 
 ### What maintainers check for a theme
 

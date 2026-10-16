@@ -139,24 +139,24 @@ Pi Pocket shows these to the owner before an install. CI loads the module and ma
 
 A theme's entry has the same fields as an extension's entry, with these differences:
 
-| Field       | What it is                                                                                                                                                                                                                                                                          |
-| ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `kind`      | Always `"theme"`. An entry with no `kind` is an extension.                                                                                                                                                                                                                          |
-| `name`      | The id of the theme: the name of its folder. 2 to 48 characters: `a-z`, `0-9`, and `-`. It must not be `pocket`, `desktop`, or the name of a palette or theme that comes with Pi Pocket.                                                                                            |
-| `files`     | The files of the theme folder, each as `<name>/<path>`. `theme.json` and `colors.toml` at the top of the folder, and `.css`, `.woff2`, `.png`, `.jpg`, `.jpeg`, `.webp`, `.avif`, `.gif`, and `.svg` files, four folders deep at most. Pi Pocket installs them in `themes/<name>/`. |
-| `themeApi`  | The version of the theme surface that the theme needs. Now this is `1`.                                                                                                                                                                                                             |
-| `minPocket` | `0.14.0` or newer.                                                                                                                                                                                                                                                                  |
+| Field       | What it is                                                                                                                                                                                                                                                                                                |
+| ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `kind`      | Always `"theme"`. An entry with no `kind` is an extension.                                                                                                                                                                                                                                                |
+| `name`      | The id of the theme: the name of its folder. 2 to 48 characters: `a-z`, `0-9`, and `-`. It must not be an id that Pi Pocket keeps: `desktop`, a theme that comes with Pi Pocket (`pocket`, `lantern`), or one of its palettes (such as `tokyo-night`). Pi Pocket can keep new ids in a minor release.     |
+| `files`     | The files of the theme folder, each as `<name>/<path>`. `theme.json`, `colors.toml`, and `colors-light.toml` at the top of the folder, and `.css`, `.woff2`, `.png`, `.jpg`, `.jpeg`, `.webp`, `.avif`, `.gif`, and `.svg` files, four folders deep at most. Pi Pocket installs them in `themes/<name>/`. |
+| `themeApi`  | The version of the theme surface that the theme needs. Now this is `1`.                                                                                                                                                                                                                                   |
+| `minPocket` | `0.14.0` or newer.                                                                                                                                                                                                                                                                                        |
 
 A theme's entry has no `pocketApi` and no `declares`: a theme runs no code. Pi Pocket 0.14.0 betas and older versions count a theme's entry as an entry they cannot read, so they never install a theme as an extension.
 
-For the format of the folder (`theme.json`, `theme.css`, `colors.toml`), read [Themes](https://github.com/TannerMidd/pi-pocket/blob/main/docs/extensions/themes.md) in Pi Pocket.
+For the format of the folder (`theme.json`, `theme.css`, `colors.toml`, `colors-light.toml`), read [Themes](https://github.com/TannerMidd/pi-pocket/blob/main/docs/extensions/themes.md) in Pi Pocket.
 
 ## Limits
 
 - 50 files for each extension, 512 KiB for each file, and 2 MiB for all the files of an extension.
 - 2000 entries in the index, and 4 MiB for `index.json`.
 - 300 characters for the reason of a revoked commit.
-- For a theme: 200 files, 8 KiB each for `theme.json` and `colors.toml`, 256 KiB for all its CSS files, 4 MiB for each other file, and 16 MiB for all the files.
+- For a theme: 200 files, 8 KiB each for `theme.json`, `colors.toml`, and `colors-light.toml`, 256 KiB for all its CSS files, 4 MiB for each other file, and 16 MiB for all the files.
 
 ## Revoke a version
 

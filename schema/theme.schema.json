@@ -2,7 +2,7 @@
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "$id": "https://github.com/TannerMidd/pi-pocket-extensions/schema/theme.schema.json",
     "title": "Pi Pocket theme index entry (format 1)",
-    "$comment": "A copy of the rules of parseThemeEntry in Pi Pocket's src/server/gallery/entry.ts (0.14.0 and newer), for editors and for build-index. Where they differ, entry.ts is correct. These rules join two fields, so only parseThemeEntry checks them: each file name is in <name>/; files has <name>/theme.css or <name>/colors.toml, and <name>/theme.json when it has theme.css; theme.json and colors.toml are 8 KiB each at most; the CSS files are 256 KiB together at most, and all files 16 MiB; no two file names differ only in case; no file name is also a folder of another file. What the CSS does is checked by Pi Pocket's theme check (scripts/validate.ts runs it), and again by Pi Pocket when it installs the theme.",
+    "$comment": "A copy of the rules of parseThemeEntry in Pi Pocket's src/server/gallery/entry.ts (0.14.0 and newer), for editors and for build-index. Where they differ, entry.ts is correct. These rules join two fields, so only parseThemeEntry checks them: each file name is in <name>/; files has <name>/theme.css, <name>/colors.toml, or <name>/colors-light.toml, and <name>/theme.json when it has theme.css; theme.json, colors.toml, and colors-light.toml are 8 KiB each at most; the CSS files are 256 KiB together at most, and all files 16 MiB; no two file names differ only in case; no file name is also a folder of another file. What the CSS does is checked by Pi Pocket's theme check (scripts/validate.ts runs it), and again by Pi Pocket when it installs the theme. The reserved ids here are Pi Pocket 0.14.0's; parseThemeEntry has the current list (Pi Pocket can keep new ones in a minor release).",
     "type": "object",
     "additionalProperties": false,
     "required": [
@@ -24,10 +24,10 @@
             "const": "theme"
         },
         "name": {
-            "description": "The theme's id: the name of its folder. Not pocket or desktop, and not the name of a palette that comes with Pi Pocket.",
+            "description": "The theme's id: the name of its folder. Not an id that Pi Pocket keeps: desktop, a theme that comes with Pi Pocket (pocket, lantern), or one of its palettes.",
             "type": "string",
             "maxLength": 48,
-            "pattern": "^(?!(?:pocket|desktop)$)[a-z0-9][a-z0-9-]{1,47}$"
+            "pattern": "^(?!(?:desktop|pocket|lantern|catppuccin|catppuccin-latte|ethereal|everforest|flexoki-light|gruvbox|hackerman|kanagawa|last-horizon|lumon|lupine|matte-black|miasma|nord|osaka-jade|retro-82|ristretto|rose-pine|solitude|tokyo-night|vantablack|white)$)[a-z0-9][a-z0-9-]{1,47}$"
         },
         "title": {
             "$ref": "#/$defs/line",
@@ -100,10 +100,10 @@
                 "required": ["name", "sha256", "size"],
                 "properties": {
                     "name": {
-                        "description": "Its path in the theme's folder, with the folder: <name>/theme.css. theme.json and colors.toml at the top of the folder, and .css, .woff2, .png, .jpg, .jpeg, .webp, .avif, .gif, and .svg files, four folders deep at most.",
+                        "description": "Its path in the theme's folder, with the folder: <name>/theme.css. theme.json, colors.toml, and colors-light.toml at the top of the folder, and .css, .woff2, .png, .jpg, .jpeg, .webp, .avif, .gif, and .svg files, four folders deep at most.",
                         "type": "string",
                         "maxLength": 200,
-                        "pattern": "^[a-z0-9][a-z0-9-]{1,47}/(?:theme\\.json|colors\\.toml|(?:(?!node_modules/)[A-Za-z0-9_][A-Za-z0-9._-]{0,99}/){0,4}(?!node_modules$)[A-Za-z0-9_][A-Za-z0-9._-]{0,99}\\.(?:[cC][sS][sS]|[wW][oO][fF][fF]2|[pP][nN][gG]|[jJ][pP][eE]?[gG]|[wW][eE][bB][pP]|[aA][vV][iI][fF]|[gG][iI][fF]|[sS][vV][gG]))$"
+                        "pattern": "^[a-z0-9][a-z0-9-]{1,47}/(?:theme\\.json|colors\\.toml|colors-light\\.toml|(?:(?!node_modules/)[A-Za-z0-9_][A-Za-z0-9._-]{0,99}/){0,4}(?!node_modules$)[A-Za-z0-9_][A-Za-z0-9._-]{0,99}\\.(?:[cC][sS][sS]|[wW][oO][fF][fF]2|[pP][nN][gG]|[jJ][pP][eE]?[gG]|[wW][eE][bB][pP]|[aA][vV][iI][fF]|[gG][iI][fF]|[sS][vV][gG]))$"
                     },
                     "sha256": {
                         "type": "string",

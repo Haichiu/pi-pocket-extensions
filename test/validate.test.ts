@@ -69,6 +69,7 @@ test("a theme entry passes the theme check, and one whose CSS loads the app's ow
             const files = {
                 "acme-paper/theme.json": '{ "themeApi": 1, "name": "Paper" }\n',
                 "acme-paper/theme.css": css,
+                "acme-paper/colors-light.toml": 'background = "#fafafa"\nforeground = "#222222"\n',
             };
 
             for (const [name, text] of Object.entries(files)) {

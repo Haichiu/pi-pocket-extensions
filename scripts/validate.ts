@@ -17,7 +17,7 @@
  * computer after you read the code.
  */
 import { execFile } from "node:child_process";
-import { mkdir, readdir, readFile, stat, writeFile } from "node:fs/promises";
+import { mkdir, readFile, stat, writeFile } from "node:fs/promises";
 import { basename, dirname, join, resolve } from "node:path";
 import { parseArgs, promisify } from "node:util";
 import { fileURLToPath, pathToFileURL } from "node:url";
@@ -142,17 +142,6 @@ const gallery = await import(pathToFileURL(join(pocket, "src/server/gallery/entr
 const { THEME_LIMITS } = await import(
     pathToFileURL(join(pocket, "src/server/themes/format.ts")).href
 );
-/** The ids of the palettes and themes that come with Pi Pocket: a theme in the index cannot have one. */
-const builtInThemes = new Set<string>([
-    ...Object.keys(
-        (
-            (await import(pathToFileURL(join(pocket, "web/themes.js")).href)) as {
-                THEMES: Record<string, unknown>;
-            }
-        ).THEMES,
-    ),
-    ...(await readdir(join(pocket, "web/themes")).catch(() => [] as string[])),
-]);
 const { POCKET_API } = await import(
     pathToFileURL(join(pocket, "src/server/extension-web.ts")).href
 );
@@ -186,15 +175,6 @@ for (const file of files) {
 
         report(file.file, `Pi Pocket does not accept the entry: ${(error as Error).message}.`);
         continue;
-    }
-
-    const entry = parsed.get(file.file)!;
-
-    if (entry.kind === "theme" && builtInThemes.has(entry.name)) {
-        report(
-            file.file,
-            `The name ${entry.name} is a palette or theme that comes with Pi Pocket. Use a different name.`,
-        );
     }
 
     if (gallery.compatibility(file.value, here) === "newer") {
