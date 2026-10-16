@@ -2,10 +2,7 @@
     "name": "acme-clock",
     "title": "Clock",
     "description": "A clock tool: the date and time now, in any time zone.",
-    "tags": [
-        "time",
-        "tool"
-    ],
+    "tags": ["time", "tool"],
     "author": {
         "name": "Ada Lovelace",
         "github": "ada"
@@ -26,15 +23,9 @@
     "pocketApi": 1,
     "minPocket": "0.14.0",
     "declares": {
-        "extensions": [
-            "acme-clock"
-        ],
-        "tools": [
-            "acme_clock"
-        ],
-        "readOnlyTools": [
-            "acme_clock"
-        ],
+        "extensions": ["acme-clock"],
+        "tools": ["acme_clock"],
+        "readOnlyTools": ["acme_clock"],
         "hooks": [],
         "sections": [],
         "wraps": [],
