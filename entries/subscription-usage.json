@@ -1,1 +1,45 @@
-{"name":"subscription-usage","title":"Subscription usage","description":"Subscription usage: a page on the rail with how much of your Claude, ChatGPT (Codex), and OpenCode Go plans is used, and when each limit resets. The server asks each service with the sign-ins already on this machine, so no key or token reaches the browser.","tags":[],"author":{"name":"Owner"},"version":"1.0.0","source":{"repo":"your-github-name/your-repository","commit":"","path":""},"files":[{"name":"subscription-usage.ts","sha256":"a7be4ad7b4d58526560cf9021ae797e0666f94a6812f011e368d47538876782d","size":18955},{"name":"subscription-usage/index.js","sha256":"b624b4883cd0843a15541e88786935f7082c406c1a0e80f2f05fea913f532641","size":6540},{"name":"subscription-usage/look.css","sha256":"7d9cee84eb4b8b5fc0a29d1ee501461bbd939dcc23a97b239e5539c900607a1a","size":1320}],"pocketApi":1,"minPocket":"0.14.0","declares":{"extensions":[],"tools":[],"readOnlyTools":[],"hooks":[],"sections":[],"wraps":[],"routes":["GET usage"],"client":"owner","access":"owner"}}
+{
+    "name": "subscription-usage",
+    "title": "Subscription usage",
+    "description": "Subscription usage: a page on the rail with how much of your Claude, ChatGPT (Codex), and OpenCode Go plans is used, and when each limit resets. The server asks each service with the sign-ins already on this machine, so no key or token reaches the browser.",
+    "tags": ["usage", "subscriptions", "limits"],
+    "author": {
+        "name": "Tanner Middleton",
+        "github": "TannerMidd"
+    },
+    "version": "1.0.0",
+    "source": {
+        "repo": "TannerMidd/pocket-subscription-usage",
+        "commit": "d9f8d75b8a28f57f59f5816e3bc7c82a3989e2a8"
+    },
+    "files": [
+        {
+            "name": "subscription-usage.ts",
+            "sha256": "a7be4ad7b4d58526560cf9021ae797e0666f94a6812f011e368d47538876782d",
+            "size": 18955
+        },
+        {
+            "name": "subscription-usage/index.js",
+            "sha256": "b624b4883cd0843a15541e88786935f7082c406c1a0e80f2f05fea913f532641",
+            "size": 6540
+        },
+        {
+            "name": "subscription-usage/look.css",
+            "sha256": "7d9cee84eb4b8b5fc0a29d1ee501461bbd939dcc23a97b239e5539c900607a1a",
+            "size": 1320
+        }
+    ],
+    "pocketApi": 1,
+    "minPocket": "0.14.0",
+    "declares": {
+        "extensions": [],
+        "tools": [],
+        "readOnlyTools": [],
+        "hooks": [],
+        "sections": [],
+        "wraps": [],
+        "routes": ["GET usage"],
+        "client": "owner",
+        "access": "owner"
+    }
+}
