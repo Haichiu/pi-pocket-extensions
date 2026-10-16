@@ -1,0 +1,109 @@
+# Check the entries, and on main make index.json from them.
+#
+# The load test runs the code of the extension in a pull request. This is safe here because:
+# - The trigger is pull_request, never pull_request_target. A pull request from a fork gets a read-only
+#   GITHUB_TOKEN and no secrets, so its code can read public things only and change nothing.
+# - The workflow gives contents: read only, and the checkouts keep no credentials on disk.
+# - The job that can write (build-index) runs only on push to main, after a maintainer merged the entry,
+#   and it runs no extension code.
+# These checks are not a security review. A maintainer reads the code at the pinned commit before a merge.
+name: Validate
+
+on:
+    pull_request:
+    push:
+        branches: [main]
+    workflow_dispatch:
+
+permissions:
+    contents: read
+
+env:
+    # The Pi Pocket that the checks use: its entry reader (src/server/gallery/entry.ts, from 0.14.0) and its
+    # test helpers. main follows the newest Pi Pocket. Pin a tag here if main breaks the checks.
+    POCKET_REF: main
+
+jobs:
+    validate:
+        runs-on: ubuntu-latest
+        timeout-minutes: 20
+        steps:
+            - name: Get the index
+              uses: actions/checkout@v5
+              with:
+                  persist-credentials: false
+                  # Two commits: for a pull request, HEAD^1 is the base, so the check can find the changed entries.
+                  fetch-depth: 2
+
+            - name: Get Pi Pocket
+              uses: actions/checkout@v5
+              with:
+                  repository: TannerMidd/pi-pocket
+                  ref: ${{ env.POCKET_REF }}
+                  path: pi-pocket
+                  persist-credentials: false
+
+            - name: Set up Node
+              uses: actions/setup-node@v5
+              with:
+                  node-version: 24
+
+            - name: Install Pi Pocket
+              working-directory: pi-pocket
+              run: npm ci
+
+            - name: Test the checks
+              env:
+                  POCKET_DIR: pi-pocket
+              run: npm test
+
+            # A pull request: check the format of all entries, and download and load the changed entries only.
+            - name: Check the changed entries
+              if: github.event_name == 'pull_request'
+              run: node scripts/validate.ts --pocket pi-pocket --changed HEAD^1
+
+            # A push to main, or a run by hand: check all entries fully.
+            - name: Check all entries
+              if: github.event_name != 'pull_request'
+              run: node scripts/validate.ts --pocket pi-pocket
+
+            - name: Check that the index can be made
+              run: node scripts/build-index.ts --out "$RUNNER_TEMP/index.json"
+
+    build-index:
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        needs: validate
+        runs-on: ubuntu-latest
+        timeout-minutes: 10
+        permissions:
+            contents: write
+        # One build at a time, so two pushes do not write index.json at the same time.
+        concurrency:
+            group: build-index
+            cancel-in-progress: false
+        steps:
+            - name: Get the index
+              uses: actions/checkout@v5
+              with:
+                  # The newest main, so the push below is on top of it.
+                  ref: main
+
+            - name: Set up Node
+              uses: actions/setup-node@v5
+              with:
+                  node-version: 24
+
+            - name: Make index.json
+              run: node scripts/build-index.ts
+
+            - name: Commit index.json if it changed
+              run: |
+                  if git diff --quiet -- index.json; then
+                      echo "index.json did not change."
+                      exit 0
+                  fi
+                  git config user.name "github-actions[bot]"
+                  git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+                  git add index.json
+                  git commit -m "Make index.json from the entries"
+                  git push
