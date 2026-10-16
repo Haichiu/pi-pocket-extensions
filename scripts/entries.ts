@@ -42,6 +42,16 @@ export async function readEntries(
             continue;
         }
 
+        // Pi Pocket's Share… leaves these for the author: say what to do, before the schema's words.
+        const source = (entry.value as { source?: { repo?: unknown; commit?: unknown } } | null)
+            ?.source;
+
+        if (source?.repo === "your-github-name/your-repository" || source?.commit === "") {
+            entry.problems.push(
+                "source.repo or source.commit is not filled in. Put the files of the extension in a public GitHub repository, and commit them. Then write that repository (owner/name) in source.repo, and the full 40-character ID of that commit in source.commit.",
+            );
+        }
+
         entry.problems.push(...check(entry.value, schemas["entry.schema.json"]!, schemas));
         const name = (entry.value as { name?: unknown } | null)?.name;
 
