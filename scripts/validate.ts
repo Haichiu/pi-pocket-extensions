@@ -196,13 +196,21 @@ if (allValid) {
 
 // ─── Selected entries: the files, and a load test ────────────────────────────────────
 
-/** Get a URL over https only, with at most `max` bytes in the body. */
+/**
+ * Get a URL over https only, with at most `max` bytes in the body. As Pi Pocket does (src/server/gallery/fetch.ts), a
+ * redirect must stay on the same host, three times at most: so the checks never accept a file that Pi Pocket refuses.
+ */
 async function download(url: string, max: number): Promise<Uint8Array> {
+    const host = new URL(url).host;
     let address = url;
 
-    for (let hops = 0; hops < 5; hops++) {
+    for (let hops = 0; hops <= 3; hops++) {
         if (new URL(address).protocol !== "https:") {
             throw new Error(`a redirect goes to an address that is not https: ${address}`);
+        }
+
+        if (new URL(address).host !== host) {
+            throw new Error(`a redirect goes to another host: ${address}`);
         }
 
         const response = await fetch(address, {

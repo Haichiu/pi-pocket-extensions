@@ -2,7 +2,7 @@
 
 This repository is the index of extensions for [Pi Pocket](https://github.com/TannerMidd/pi-pocket). Each extension is a drop-in: a module that runs in the Pi Pocket server.
 
-The index does not keep the code of the extensions. Each entry points to files in the author's GitHub repository, at one commit. The entry also gives the SHA-256 hash of each file. Thus the code that you install is the code that a maintainer read.
+The index does not keep the code of the extensions. Each entry points to files in the author's GitHub repository, at one commit. The entry also gives the SHA-256 hash of each file. So the code that you install is the code that a maintainer read.
 
 To add an extension, read [CONTRIBUTING.md](CONTRIBUTING.md).
 
@@ -109,6 +109,7 @@ Pi Pocket shows these to the owner before an install. CI loads the module and ma
 
 - 50 files for each extension, 512 KiB for each file, and 2 MiB for all the files of an extension.
 - 2000 entries in the index, and 4 MiB for `index.json`.
+- 300 characters for the reason of a revoked commit.
 
 ## Revoke a version
 

@@ -46,7 +46,7 @@ export async function readEntries(
         const name = (entry.value as { name?: unknown } | null)?.name;
 
         if (typeof name === "string" && file !== `${name}.json`) {
-            entry.problems.push(`The name is ${name}. Thus the file name must be ${name}.json.`);
+            entry.problems.push(`The name is ${name}. So the file name must be ${name}.json.`);
         }
     }
 
