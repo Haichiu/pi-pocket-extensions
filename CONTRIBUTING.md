@@ -1,5 +1,7 @@
 # Add an extension
 
+To add a theme, go to [Add a theme](#add-a-theme).
+
 You add an extension with a pull request. The pull request adds one file: `entries/<name>.json`. The code stays in your own repository.
 
 ## 1. Put the files in a public GitHub repository
@@ -100,3 +102,29 @@ A module `name` has 2 to 64 characters: `a-z`, `0-9`, `-`, and `_`. The first ch
 - 512 KiB for each file.
 - 2 MiB for all the files of an extension.
 - Text fields are one line, with the lengths in the [README](README.md#an-entry).
+
+## Add a theme
+
+You add a theme the same way: a pull request adds one file, `entries/<name>.json`, and the files stay in your own repository.
+
+1. Make the theme in Pi Pocket (Appearance → **Duplicate**, then **Edit with Pi**). Its folder is `~/.pi-pocket/themes/<name>/`.
+2. Put the folder in a public GitHub repository, with the same name: `<name>/theme.json`, `<name>/theme.css`, and so on. Put it at the top level, or in a folder that you write in `source.path`. Push it, and write down the full commit ID.
+3. Get the entry. **The easy way:** in Pi Pocket, choose the theme in **Appearance** and tap **Share…**. Pi Pocket does its theme check, and makes the entry with the files that the theme loads, with their sizes and hashes. Give the theme a `description` in `theme.json` first. **By hand:** copy the example in the [README](README.md#a-themes-entry).
+4. Complete the entry as for an extension (step 3 above), and open a pull request. In the description, tell what the theme changes.
+
+A theme's `name` has 2 to 48 characters: `a-z`, `0-9`, and `-`. It must not be `pocket`, `desktop`, or the name of a palette or theme that comes with Pi Pocket, and no other entry can have it.
+
+### What CI checks for a theme
+
+- The entry agrees with `schema/theme.schema.json`, and Pi Pocket's own reader accepts it.
+- The files at the pinned commit have the sizes and SHA-256 hashes in the entry.
+- Pi Pocket's theme check accepts the files: `theme.json` and `colors.toml` are correct, and the CSS loads only files of the theme, by relative paths. CI does not run a load test, because a theme runs no code.
+
+### What maintainers check for a theme
+
+A maintainer reads all the CSS at the pinned commit before a merge. The maintainer looks for these:
+
+- The theme does what the description says.
+- No rule hides, covers, or changes approval cards, notices, or the sign-in page, and no rule uses `content:` to put other words on the app.
+- No font draws other letters than the ones it names.
+- Focus rings stay visible.

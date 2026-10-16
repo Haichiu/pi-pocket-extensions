@@ -1,13 +1,15 @@
 /**
  * The full check of the entries, with a Pi Pocket checkout. For every entry: the JSON Schema, Pi Pocket's own
- * parseEntry, the file name, and names that two entries share. For the entries to test (all, or those that --only or
- * --changed select): the pinned files are downloaded and their sizes and SHA-256 hashes checked, then the module is
- * loaded in a test Pi Pocket and what it installs is compared with its `declares`.
+ * parseEntry (parseThemeEntry for a theme), the file name, and names that two entries share. For the entries to test
+ * (all, or those that --only or --changed select): the pinned files are downloaded and their sizes and SHA-256 hashes
+ * checked. Then an extension's module is loaded in a test Pi Pocket and what it installs is compared with its
+ * `declares`; a theme gets Pi Pocket's theme check (readTheme: theme.json, colors.toml, and the CSS), and runs no code.
  *
  * Usage: node scripts/validate.ts --pocket <Pi Pocket folder> [--entries <folder>] [--local <folder>]
  *        [--only <name>]… [--changed <git ref>]
  *
- *   --local <folder>   Read the files from this folder (laid out as the drop-in folder) and download nothing.
+ *   --local <folder>   Read the files from this folder (laid out as the drop-in folder, or as the themes folder
+ *                      for a theme) and download nothing.
  *   --only <name>      Download and load only this entry. Repeat it for more.
  *   --changed <ref>    Download and load only the entries changed since <ref> (git diff). For pull requests.
  *
@@ -15,7 +17,7 @@
  * computer after you read the code.
  */
 import { execFile } from "node:child_process";
-import { mkdir, readFile, stat, writeFile } from "node:fs/promises";
+import { mkdir, readdir, readFile, stat, writeFile } from "node:fs/promises";
 import { basename, dirname, join, resolve } from "node:path";
 import { parseArgs, promisify } from "node:util";
 import { fileURLToPath, pathToFileURL } from "node:url";
@@ -57,10 +59,19 @@ interface Declares {
     commands?: string[];
 }
 interface Entry {
+    kind?: undefined;
     name: string;
     source: { repo: string; commit: string; path: string };
     files: { name: string; sha256: string; size: number }[];
     declares: Declares;
+    revoked: { commit: string; reason: string }[];
+}
+/** A theme's entry: a theme folder's files, `<name>/…`, and no `declares`. */
+interface ThemeEntry {
+    kind: "theme";
+    name: string;
+    source: { repo: string; commit: string; path: string };
+    files: { name: string; sha256: string; size: number }[];
     revoked: { commit: string; reason: string }[];
 }
 interface ModuleInfo {
@@ -128,6 +139,20 @@ const helpers =
         ? await import(pathToFileURL(join(pocket, "test", "helpers.ts")).href)
         : undefined;
 const gallery = await import(pathToFileURL(join(pocket, "src/server/gallery/entry.ts")).href);
+const { THEME_LIMITS } = await import(
+    pathToFileURL(join(pocket, "src/server/themes/format.ts")).href
+);
+/** The ids of the palettes and themes that come with Pi Pocket: a theme in the index cannot have one. */
+const builtInThemes = new Set<string>([
+    ...Object.keys(
+        (
+            (await import(pathToFileURL(join(pocket, "web/themes.js")).href)) as {
+                THEMES: Record<string, unknown>;
+            }
+        ).THEMES,
+    ),
+    ...(await readdir(join(pocket, "web/themes")).catch(() => [] as string[])),
+]);
 const { POCKET_API } = await import(
     pathToFileURL(join(pocket, "src/server/extension-web.ts")).href
 );
@@ -138,7 +163,7 @@ const here = { api: POCKET_API as number, version: pocketVersion };
 
 // ─── Every entry: Pi Pocket's own reader, and names ─────────────────────────────────
 
-const parsed = new Map<string, Entry>();
+const parsed = new Map<string, Entry | ThemeEntry>();
 
 for (const file of files) {
     if (file.value === undefined) {
@@ -146,7 +171,14 @@ for (const file of files) {
     }
 
     try {
-        parsed.set(file.file, gallery.parseEntry(file.value) as Entry);
+        const theme = (file.value as { kind?: unknown }).kind === "theme";
+
+        parsed.set(
+            file.file,
+            theme
+                ? (gallery.parseThemeEntry(file.value) as ThemeEntry)
+                : (gallery.parseEntry(file.value) as Entry),
+        );
     } catch (error) {
         if (!(error instanceof gallery.EntryError)) {
             throw error;
@@ -154,6 +186,15 @@ for (const file of files) {
 
         report(file.file, `Pi Pocket does not accept the entry: ${(error as Error).message}.`);
         continue;
+    }
+
+    const entry = parsed.get(file.file)!;
+
+    if (entry.kind === "theme" && builtInThemes.has(entry.name)) {
+        report(
+            file.file,
+            `The name ${entry.name} is a palette or theme that comes with Pi Pocket. Use a different name.`,
+        );
     }
 
     if (gallery.compatibility(file.value, here) === "newer") {
@@ -252,7 +293,9 @@ async function download(url: string, max: number): Promise<Uint8Array> {
 }
 
 /** The entry's files, by name, from GitHub at the pinned commit or from --local. */
-async function getFiles(entry: Entry, report: (problem: string) => void) {
+async function getFiles(entry: Entry | ThemeEntry, report: (problem: string) => void) {
+    const max = entry.kind === "theme" ? (THEME_LIMITS.asset as number) : gallery.LIMITS.file;
+
     const got = new Map<string, Uint8Array>();
 
     for (const file of entry.files) {
@@ -262,8 +305,8 @@ async function getFiles(entry: Entry, report: (problem: string) => void) {
             if (options.local !== undefined) {
                 const path = join(resolve(options.local), file.name);
 
-                if ((await stat(path)).size > gallery.LIMITS.file) {
-                    throw new Error(`the file is more than ${gallery.LIMITS.file} bytes`);
+                if ((await stat(path)).size > max) {
+                    throw new Error(`the file is more than ${max} bytes`);
                 }
 
                 bytes = await readFile(path);
@@ -380,10 +423,34 @@ async function loadTest(entry: Entry, got: Map<string, Uint8Array>): Promise<str
 }
 
 /**
+ * Pi Pocket's theme check on a theme's files, in a folder of the test Pi Pocket: the same check that Pi Pocket does
+ * before it installs the theme. No code runs.
+ */
+async function themeCheck(entry: ThemeEntry, got: Map<string, Uint8Array>): Promise<string[]> {
+    const { readTheme } = await import(pathToFileURL(join(pocket, "src/server/themes.ts")).href);
+    const dir = join(helpers.root, `theme-${entry.name}`);
+
+    for (const [name, bytes] of got) {
+        const path = join(dir, name);
+
+        await mkdir(dirname(path), { recursive: true });
+        await writeFile(path, bytes);
+    }
+
+    try {
+        readTheme(join(dir, entry.name), entry.name, false, pocketVersion);
+    } catch (error) {
+        return [`Pi Pocket's theme check refuses it: ${(error as Error).message}.`];
+    }
+
+    return [];
+}
+
+/**
  * Whether the entry is withdrawn: its pinned commit is revoked. Pi Pocket does not install it, so its files are not
  * tested: a withdrawn entry that no longer loads must not stop the checks of every other entry.
  */
-function withdrawn(entry: Entry): boolean {
+function withdrawn(entry: Entry | ThemeEntry): boolean {
     return entry.revoked.some((each) => each.commit === entry.source.commit);
 }
 
@@ -399,7 +466,10 @@ try {
         const got = await getFiles(entry, (problem) => report(file, problem));
 
         if (problems.get(file)!.length === before) {
-            for (const problem of await loadTest(entry, got)) {
+            const found =
+                entry.kind === "theme" ? await themeCheck(entry, got) : await loadTest(entry, got);
+
+            for (const problem of found) {
                 report(file, problem);
             }
         }
@@ -419,7 +489,9 @@ for (const [file, list] of problems) {
             entry !== undefined && withdrawn(entry)
                 ? "the format; withdrawn, so its files are not tested"
                 : selected.includes(file)
-                  ? "the files and the load test"
+                  ? entry?.kind === "theme"
+                      ? "the files and the theme check"
+                      : "the files and the load test"
                   : "the format";
 
         console.log(`OK    entries/${file} (${tested})`);

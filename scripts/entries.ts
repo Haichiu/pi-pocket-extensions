@@ -48,11 +48,20 @@ export async function readEntries(
 
         if (source?.repo === "your-github-name/your-repository" || source?.commit === "") {
             entry.problems.push(
-                "source.repo or source.commit is not filled in. Put the files of the extension in a public GitHub repository, and commit them. Then write that repository (owner/name) in source.repo, and the full 40-character ID of that commit in source.commit.",
+                "source.repo or source.commit is not filled in. Put the files of the extension or theme in a public GitHub repository, and commit them. Then write that repository (owner/name) in source.repo, and the full 40-character ID of that commit in source.commit.",
             );
         }
 
-        entry.problems.push(...check(entry.value, schemas["entry.schema.json"]!, schemas));
+        // A theme's entry has kind "theme"; an extension's has no kind.
+        const kind = (entry.value as { kind?: unknown } | null)?.kind;
+
+        entry.problems.push(
+            ...check(
+                entry.value,
+                schemas[kind === "theme" ? "theme.schema.json" : "entry.schema.json"]!,
+                schemas,
+            ),
+        );
         const name = (entry.value as { name?: unknown } | null)?.name;
 
         if (typeof name === "string" && file !== `${name}.json`) {

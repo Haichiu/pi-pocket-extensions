@@ -25,8 +25,23 @@
             "type": "array",
             "maxItems": 2000,
             "items": {
-                "$ref": "entry.schema.json"
-            }
+                "if": {
+                    "type": "object",
+                    "required": ["kind"],
+                    "properties": {
+                        "kind": {
+                            "const": "theme"
+                        }
+                    }
+                },
+                "then": {
+                    "$ref": "theme.schema.json"
+                },
+                "else": {
+                    "$ref": "entry.schema.json"
+                }
+            },
+            "description": "The entries: extensions, and themes (kind: theme). Pi Pocket before 0.14.0 counts a theme's entry as one it cannot read."
         }
     }
 }

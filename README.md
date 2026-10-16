@@ -1,10 +1,10 @@
 # Pi Pocket extensions
 
-This repository is the index of extensions for [Pi Pocket](https://github.com/TannerMidd/pi-pocket). Each extension is a drop-in: a module that runs in the Pi Pocket server.
+This repository is the index of extensions and themes for [Pi Pocket](https://github.com/TannerMidd/pi-pocket). Each extension is a drop-in: a module that runs in the Pi Pocket server. Each theme is a folder of CSS, colors, fonts, and images that changes how the app looks (Pi Pocket 0.14.0 and newer).
 
-The index does not keep the code of the extensions. Each entry points to files in the author's GitHub repository, at one commit. The entry also gives the SHA-256 hash of each file. So the code that you install is the code that a maintainer read.
+The index does not keep the code of the extensions or the files of the themes. Each entry points to files in the author's GitHub repository, at one commit. The entry also gives the SHA-256 hash of each file. So the code that you install is the code that a maintainer read.
 
-To add an extension, read [CONTRIBUTING.md](CONTRIBUTING.md).
+To add an extension or a theme, read [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## How Pi Pocket uses the index
 
@@ -17,6 +17,8 @@ Updates are never automatic. When an entry points to a new commit, Pi Pocket sho
 
 When a maintainer revokes a version, Pi Pocket shows a warning where that version is installed.
 
+A theme shows with the tag **Theme**. When you install it, Pi Pocket checks the hashes and then does its theme check on the files (the same check as for each theme folder). A theme that does not pass is not installed. The theme goes into the list in **Appearance**. Pi Pocket does not apply it: each person chooses it there.
+
 ## Trust
 
 A drop-in runs in the server with all the rights of the owner. It can read the owner's settings, tokens, and sessions. Lancet Guard does not see what its code does.
@@ -26,13 +28,16 @@ A drop-in runs in the server with all the rights of the owner. It can read the o
 - The pinned commit cannot change. A new version needs a new commit and a new review.
 - Read the code before you turn on an extension. The index makes this easier, but it does not do it for you.
 
+A theme runs no code, and Pi Pocket's theme check stops it from loading files from other servers or from the app's own addresses. But CSS can hide or relabel parts of the app, approval cards too. So a maintainer reads all of a theme's CSS before a merge, and only the owner can install a theme.
+
 ## The files
 
 | Path                       | What it is                                                                   |
 | -------------------------- | ---------------------------------------------------------------------------- |
 | `entries/<name>.json`      | One entry for each extension.                                                |
 | `index.json`               | The index that Pi Pocket reads. CI makes it from `entries/`. Do not edit it. |
-| `schema/entry.schema.json` | The JSON Schema of an entry.                                                 |
+| `schema/entry.schema.json` | The JSON Schema of an extension's entry.                                     |
+| `schema/theme.schema.json` | The JSON Schema of a theme's entry.                                          |
 | `schema/index.schema.json` | The JSON Schema of `index.json`.                                             |
 | `scripts/build-index.ts`   | Makes `index.json` from `entries/`.                                          |
 | `scripts/validate.ts`      | The full check of the entries. It needs a Pi Pocket checkout.                |
@@ -106,11 +111,52 @@ Pi Pocket shows these to the owner before an install. CI loads the module and ma
 | `access`        | The widest access of the routes and the browser module. `"owner"` when the module adds nothing to the app.                                                                                                                                                      |
 | `commands`      | The slash commands that the module adds, each with its scope, such as `conversation clock-zone` (anyone who can steer the session can use it) or `global clock-reset` (only the owner). The name must have a `-`. Optional. Pi Pocket 0.14.0 and newer read it. |
 
+## A theme's entry
+
+```json
+{
+    "kind": "theme",
+    "name": "acme-paper",
+    "title": "Paper",
+    "description": "Flat cards and a warm accent.",
+    "tags": ["light", "warm"],
+    "author": { "name": "Ada Lovelace", "github": "ada" },
+    "version": "1.0.0",
+    "source": {
+        "repo": "ada/pocket-paper",
+        "commit": "0123456789abcdef0123456789abcdef01234567",
+        "path": ""
+    },
+    "files": [
+        { "name": "acme-paper/theme.json", "sha256": "<64 hex characters>", "size": 120 },
+        { "name": "acme-paper/theme.css", "sha256": "<64 hex characters>", "size": 2345 }
+    ],
+    "themeApi": 1,
+    "minPocket": "0.14.0",
+    "revoked": []
+}
+```
+
+A theme's entry has the same fields as an extension's entry, with these differences:
+
+| Field       | What it is                                                                                                                                                                                                                                                                          |
+| ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `kind`      | Always `"theme"`. An entry with no `kind` is an extension.                                                                                                                                                                                                                          |
+| `name`      | The id of the theme: the name of its folder. 2 to 48 characters: `a-z`, `0-9`, and `-`. It must not be `pocket`, `desktop`, or the name of a palette or theme that comes with Pi Pocket.                                                                                            |
+| `files`     | The files of the theme folder, each as `<name>/<path>`. `theme.json` and `colors.toml` at the top of the folder, and `.css`, `.woff2`, `.png`, `.jpg`, `.jpeg`, `.webp`, `.avif`, `.gif`, and `.svg` files, four folders deep at most. Pi Pocket installs them in `themes/<name>/`. |
+| `themeApi`  | The version of the theme surface that the theme needs. Now this is `1`.                                                                                                                                                                                                             |
+| `minPocket` | `0.14.0` or newer.                                                                                                                                                                                                                                                                  |
+
+A theme's entry has no `pocketApi` and no `declares`: a theme runs no code. Pi Pocket 0.14.0 betas and older versions count a theme's entry as an entry they cannot read, so they never install a theme as an extension.
+
+For the format of the folder (`theme.json`, `theme.css`, `colors.toml`), read [Themes](https://github.com/TannerMidd/pi-pocket/blob/main/docs/extensions/themes.md) in Pi Pocket.
+
 ## Limits
 
 - 50 files for each extension, 512 KiB for each file, and 2 MiB for all the files of an extension.
 - 2000 entries in the index, and 4 MiB for `index.json`.
 - 300 characters for the reason of a revoked commit.
+- For a theme: 200 files, 8 KiB each for `theme.json` and `colors.toml`, 256 KiB for all its CSS files, 4 MiB for each other file, and 16 MiB for all the files.
 
 ## Revoke a version
 
@@ -151,7 +197,7 @@ node scripts/validate.ts --pocket pi-pocket --only acme-clock --local ../pocket-
 POCKET_DIR=pi-pocket npm test
 ```
 
-**Warning:** the full check loads the code of each extension that it tests. Read the code before you run the check on your computer.
+**Warning:** the full check loads the code of each extension that it tests. Read the code before you run the check on your computer. For a theme, the check does Pi Pocket's theme check on the files, and runs no code.
 
 ## License
 

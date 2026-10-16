@@ -1,7 +1,8 @@
 /**
  * A small JSON Schema checker, for the part of draft 2020-12 that this repository's schemas use: type, const, enum,
  * properties, required, additionalProperties, items, minItems, maxItems, uniqueItems, minLength, maxLength, pattern,
- * minimum, maximum, and $ref (to "#/$defs/…" or to another schema by its file name). Other keywords are ignored.
+ * minimum, maximum, if/then/else, and $ref (to "#/$defs/…" or to another schema by its file name). Other keywords are
+ * ignored.
  */
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
@@ -10,7 +11,7 @@ export type Schema = { [keyword: string]: unknown };
 
 /** The schemas in `schema/`, by file name, so one can refer to another. */
 export async function loadSchemas(directory: string): Promise<Record<string, Schema>> {
-    const names = ["entry.schema.json", "index.schema.json"];
+    const names = ["entry.schema.json", "theme.schema.json", "index.schema.json"];
     const schemas: Record<string, Schema> = {};
 
     for (const name of names) {
@@ -80,6 +81,18 @@ export function check(
         }
 
         problems.push(...check(value, target, schemas, where, ref.startsWith("#") ? root : target));
+    }
+
+    // An entry is an extension's or, with kind "theme", a theme's: `if` picks the schema that applies.
+    if (typeof schema.if === "object" && schema.if !== null) {
+        const branch =
+            check(value, schema.if as Schema, schemas, where, root).length === 0
+                ? schema.then
+                : schema.else;
+
+        if (typeof branch === "object" && branch !== null) {
+            problems.push(...check(value, branch as Schema, schemas, where, root));
+        }
     }
 
     if (schema.type !== undefined) {
