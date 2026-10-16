@@ -9,7 +9,7 @@ You add an extension with a pull request. The pull request adds one file: `entri
 - Use the same file names as in the drop-in folder (`~/.pi-pocket/extensions/`):
     - `<name>.ts`: the module. This file is necessary.
     - `<name>.js` or `<name>.mjs`: a browser module beside it (optional).
-    - `<name>/…`: other files in a folder with the name of the module (optional). Four folders deep at most. No hidden files and no `node_modules`.
+    - `<name>/…`: other files in a folder with the name of the module (optional). Four folders deep at most. No hidden files and no `node_modules`. A name must not end with a dot, and must not be a Windows device name (`con`, `nul`, `com1`, and the rest). A file must not have the name of a folder that holds other files.
 - Push the files. Write down the full commit ID (40 characters). Short IDs are not permitted.
 
 For how to write a drop-in, read [Writing extensions](https://github.com/TannerMidd/pi-pocket/blob/main/docs/extensions.md) in Pi Pocket.

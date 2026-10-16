@@ -2,7 +2,7 @@
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "$id": "https://github.com/TannerMidd/pi-pocket-extensions/schema/entry.schema.json",
     "title": "Pi Pocket extension index entry (format 1)",
-    "$comment": "Matches parseEntry in Pi Pocket's src/server/gallery/entry.ts. These rules join two fields, so only parseEntry checks them: files has <name>.ts, and each file name is <name>.ts, <name>.js, <name>.mjs, or in <name>/; no two file names differ only in case; the files are 2 MiB together at most; readOnlyTools are all in tools; access is not narrower than client; access is owner when client is null and routes is empty. Lengths here count code points, and parseEntry counts UTF-16 units: text with emoji near a limit can pass here and fail there. The reserved names here are Pi Pocket 0.14.0's; parseEntry has the current list.",
+    "$comment": "Matches parseEntry in Pi Pocket's src/server/gallery/entry.ts. These rules join two fields, so only parseEntry checks them: files has <name>.ts, and each file name is <name>.ts, <name>.js, <name>.mjs, or in <name>/; no two file names differ only in case; no file name is also a folder of another file; no part of a name ends with a dot or is a Windows device name (con, nul, com1, and the rest); the files are 2 MiB together at most; readOnlyTools are all in tools; access is not narrower than client; access is owner when client is null and routes is empty. Lengths here count code points, and parseEntry counts UTF-16 units: text with emoji near a limit can pass here and fail there. The reserved names here are Pi Pocket 0.14.0's; parseEntry has the current list.",
     "type": "object",
     "additionalProperties": false,
     "required": [
