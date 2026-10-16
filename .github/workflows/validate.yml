@@ -6,6 +6,7 @@
 # - The workflow gives contents: read only, and the checkouts keep no credentials on disk.
 # - The job that can write (build-index) runs only on push to main, after a maintainer merged the entry,
 #   and it runs no extension code.
+# - The actions are pinned to full commit IDs, so a moved tag cannot change what runs here.
 # These checks are not a security review. A maintainer reads the code at the pinned commit before a merge.
 name: Validate
 
@@ -29,14 +30,14 @@ jobs:
         timeout-minutes: 20
         steps:
             - name: Get the index
-              uses: actions/checkout@v5
+              uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
               with:
                   persist-credentials: false
                   # Two commits: for a pull request, HEAD^1 is the base, so the check can find the changed entries.
                   fetch-depth: 2
 
             - name: Get Pi Pocket
-              uses: actions/checkout@v5
+              uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
               with:
                   repository: TannerMidd/pi-pocket
                   ref: ${{ env.POCKET_REF }}
@@ -44,7 +45,7 @@ jobs:
                   persist-credentials: false
 
             - name: Set up Node
-              uses: actions/setup-node@v5
+              uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
               with:
                   node-version: 24
 
@@ -83,13 +84,13 @@ jobs:
             cancel-in-progress: false
         steps:
             - name: Get the index
-              uses: actions/checkout@v5
+              uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
               with:
                   # The newest main, so the push below is on top of it.
                   ref: main
 
             - name: Set up Node
-              uses: actions/setup-node@v5
+              uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
               with:
                   node-version: 24
 
