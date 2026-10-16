@@ -53,6 +53,8 @@ interface Declares {
     routes: string[];
     client: Access | null;
     access: Access;
+    /** Its slash commands, each with its scope: `conversation clock-zone`. Optional: older entries do not have it. */
+    commands?: string[];
 }
 interface Entry {
     name: string;
@@ -68,7 +70,7 @@ interface ModuleInfo {
         Declares,
         "tools" | "readOnlyTools" | "hooks" | "sections" | "wraps"
     >)[];
-    web?: { routes: string[]; client?: Access; access?: Access };
+    web?: { routes: string[]; client?: Access; access?: Access; commands?: string[] };
 }
 
 const LISTS = [
@@ -79,6 +81,7 @@ const LISTS = [
     "sections",
     "wraps",
     "routes",
+    "commands",
 ] as const;
 
 const schemas = await loadSchemas(join(REPO, "schema"));
@@ -303,6 +306,8 @@ function actual(module: ModuleInfo): Declares {
         routes: module.web?.routes ?? [],
         client: module.web?.client ?? null,
         access: module.web?.access ?? "owner",
+        // Pi Pocket lists them as "conversation /clock-zone"; an entry writes "conversation clock-zone".
+        commands: (module.web?.commands ?? []).map((command) => command.replace(" /", " ")),
     };
 }
 
@@ -311,11 +316,14 @@ function differences(declared: Declares, has: Declares): string[] {
     const lines: string[] = [];
 
     for (const key of LISTS) {
-        for (const item of has[key].filter((each) => !declared[key].includes(each))) {
+        const wanted = declared[key] ?? [];
+        const found = has[key] ?? [];
+
+        for (const item of found.filter((each) => !wanted.includes(each))) {
             lines.push(`declares.${key} does not have "${item}", but the module installs it.`);
         }
 
-        for (const item of declared[key].filter((each) => !has[key].includes(each))) {
+        for (const item of wanted.filter((each) => !found.includes(each))) {
             lines.push(`declares.${key} has "${item}", but the module does not install it.`);
         }
     }

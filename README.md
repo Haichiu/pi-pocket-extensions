@@ -93,17 +93,18 @@ All fields are necessary, except `author.github`, `source.path`, and `revoked`. 
 
 Pi Pocket shows these to the owner before an install. CI loads the module and makes sure that each list is correct. The order of items is not important.
 
-| Field           | What it is                                                                                                                   |
-| --------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| `extensions`    | The names of the extensions that the module returns.                                                                         |
-| `tools`         | The names of all the tools of these extensions.                                                                              |
-| `readOnlyTools` | The tools that have `annotations: { readOnlyHint: true }`. Plan mode lets these tools run. Each one must also be in `tools`. |
-| `hooks`         | The hook handlers, such as `beforeTool` or `onYield`.                                                                        |
-| `sections`      | The keys of the system prompt sections.                                                                                      |
-| `wraps`         | The tools and sections that the module wraps, such as `tool bash` or `section memory`.                                       |
-| `routes`        | The routes that the module adds to the app, such as `GET status`.                                                            |
-| `client`        | Who loads the browser module: `"owner"`, `"steer"`, or `"view"`. `null` when there is no browser module.                     |
-| `access`        | The widest access of the routes and the browser module. `"owner"` when the module adds nothing to the app.                   |
+| Field           | What it is                                                                                                                                                                                                                                                      |
+| --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `extensions`    | The names of the extensions that the module returns.                                                                                                                                                                                                            |
+| `tools`         | The names of all the tools of these extensions.                                                                                                                                                                                                                 |
+| `readOnlyTools` | The tools that have `annotations: { readOnlyHint: true }`. Plan mode lets these tools run. Each one must also be in `tools`.                                                                                                                                    |
+| `hooks`         | The hook handlers, such as `beforeTool` or `onYield`.                                                                                                                                                                                                           |
+| `sections`      | The keys of the system prompt sections.                                                                                                                                                                                                                         |
+| `wraps`         | The tools and sections that the module wraps, such as `tool bash` or `section memory`.                                                                                                                                                                          |
+| `routes`        | The routes that the module adds to the app, such as `GET status`.                                                                                                                                                                                               |
+| `client`        | Who loads the browser module: `"owner"`, `"steer"`, or `"view"`. `null` when there is no browser module.                                                                                                                                                        |
+| `access`        | The widest access of the routes and the browser module. `"owner"` when the module adds nothing to the app.                                                                                                                                                      |
+| `commands`      | The slash commands that the module adds, each with its scope, such as `conversation clock-zone` (anyone who can steer the session can use it) or `global clock-reset` (only the owner). The name must have a `-`. Optional. Pi Pocket 0.14.0 and newer read it. |
 
 ## Limits
 

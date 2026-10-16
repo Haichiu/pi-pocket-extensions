@@ -219,6 +219,17 @@
                 },
                 "access": {
                     "enum": ["owner", "steer", "view"]
+                },
+                "commands": {
+                    "type": "array",
+                    "maxItems": 100,
+                    "uniqueItems": true,
+                    "items": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 80,
+                        "pattern": "^(conversation|global) [a-z][a-z0-9_]*-[a-z0-9_-]*$"
+                    }
                 }
             }
         },
