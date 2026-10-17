@@ -1,28 +1,49 @@
 {
     "name": "donsetch",
     "title": "DonSeTch for Pi Pocket",
-    "description": "DonSeTch web fetch, search, crawl, and screenshot tools for Pi Pocket, through the local donsetch MCP binary.",
-    "tags": ["web", "search", "fetch", "crawl", "mcp", "donsetch"],
-    "author": { "name": "Okan Binli", "github": "peyloride" },
-    "version": "1.0.0",
+    "description": "DonSeTch web fetch, search, crawl, and screenshot tools for Pi Pocket, through the local donsetch MCP binary. The module starts that binary on the first tool call in each conversation with a limited environment. The binary contacts the URLs you request and the third-party search engines and sources used by web_search, including GitHub, Wikipedia, Hacker News, Semantic Scholar, arXiv, Stack Exchange, MDN, and Google News. See the donsetch documentation for the current providers.",
+    "tags": [
+        "web",
+        "search",
+        "fetch",
+        "crawl",
+        "mcp",
+        "donsetch"
+    ],
+    "author": {
+        "name": "Okan Binli",
+        "github": "peyloride"
+    },
+    "version": "1.1.0",
     "source": {
         "repo": "peyloride/donsetch-pi-durable",
-        "commit": "376cc7c4864c84c67c2954da704c63acc41f317e",
+        "commit": "1ede50ddda6de58f851ea38498557a11537e1b98",
         "path": ""
     },
     "files": [
         {
             "name": "donsetch.ts",
-            "sha256": "888720089f68e8605ccc92bd17f1cb6beab56b14d1625b9ee1998cd7b5c326d7",
-            "size": 33260
+            "sha256": "8359df5cbf79d95fea3fda8e9c2ee0549b3ca37ca845e950326c6a32ff819a8c",
+            "size": 49608
         }
     ],
     "pocketApi": 1,
     "minPocket": "0.14.0",
     "declares": {
-        "extensions": ["donsetch"],
-        "tools": ["web_fetch", "web_search", "web_crawl", "web_screenshot"],
-        "readOnlyTools": ["web_fetch", "web_search", "web_crawl", "web_screenshot"],
+        "extensions": [
+            "donsetch"
+        ],
+        "tools": [
+            "web_fetch",
+            "web_search",
+            "web_crawl",
+            "web_screenshot"
+        ],
+        "readOnlyTools": [
+            "web_search",
+            "web_crawl",
+            "web_screenshot"
+        ],
         "hooks": [],
         "sections": [],
         "wraps": [],
