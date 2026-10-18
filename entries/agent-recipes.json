@@ -1,7 +1,7 @@
 {
     "name": "agent-recipes",
     "title": "Agent recipes",
-    "description": "Save configurable owner-managed recipes and start roles from an exact run preview. Direct Save and Run use public Pocket 0.16 APIs. The optional read-only status tool uses the experimental host-linked list API. Reads no outside files or secrets and makes no direct network calls or processes. Linked agents use normal tools and providers; work modes are instructions, not a sandbox.",
+    "description": "Author recipe drafts in conversation, share owner-accepted snapshots, and start linked roles after owner confirmation or under a bounded conversation policy. Automatic use and status use experimental host-linked APIs; automatic use acts as the current source requester, not the authorizing owner. Reads only module documents, source settings and model metadata; no outside files or secrets, direct external network calls, or processes. Linked agents use normal tools and providers; work modes are instructions, not a sandbox.",
     "tags": [
         "agents",
         "recipes",
@@ -12,32 +12,27 @@
         "name": "Tanner Middleton",
         "github": "TannerMidd"
     },
-    "version": "0.2.0",
+    "version": "0.3.0",
     "source": {
         "repo": "TannerMidd/pi-pocket-agent-recipes",
-        "commit": "07cd973e3970278accacac37b6eea6a61b352ad2",
+        "commit": "cae7cedd75e026234305e0e7f0299d6907651033",
         "path": ""
     },
     "files": [
         {
             "name": "agent-recipes.ts",
-            "sha256": "fecec4a1bca50aedcccfda57c9f8e71c7a5bcb8756c7d5efd0dfd5a6cd85679b",
-            "size": 32815
-        },
-        {
-            "name": "agent-recipes/domain.ts",
-            "sha256": "3e393cac81ff6a297e0205d36f59dde9462f1697dd64966dd3406f055caabab5",
-            "size": 11037
+            "sha256": "574ba7d2cb31909abb94514ec7c675d260905e652e536d3090461ed26290a556",
+            "size": 89395
         },
         {
             "name": "agent-recipes/index.js",
-            "sha256": "bfcf077ea619f39d38e604683792a8d7415f70ab43df7789318151e2702f9518",
-            "size": 80007
+            "sha256": "aec8fc90216987b46ca1e7ca09d23adce321d948521dd2218b9200bce3a2e655",
+            "size": 137701
         },
         {
             "name": "agent-recipes/style.css",
-            "sha256": "5026c493225a087c76f8464c4e283dc79fb026dd1fb6601bdd29d8b396cfde69",
-            "size": 15741
+            "sha256": "56a5c3267b8ba985958de3fbaaa3941593be86d8167227a8c4de7a340bb6158a",
+            "size": 20139
         }
     ],
     "pocketApi": 1,
@@ -47,13 +42,21 @@
             "agent-recipes"
         ],
         "tools": [
+            "agent_recipes_list",
+            "agent_recipes_get",
+            "agent_recipes_draft",
+            "agent_recipes_invoke",
             "agent_recipes_status"
         ],
         "readOnlyTools": [
+            "agent_recipes_list",
+            "agent_recipes_get",
             "agent_recipes_status"
         ],
         "hooks": [],
-        "sections": [],
+        "sections": [
+            "agent_recipes"
+        ],
         "wraps": [],
         "routes": [
             "GET state",
@@ -62,7 +65,14 @@
             "GET sources/:source/state",
             "POST sources/:source/launches",
             "POST sources/:source/launches/:launch/retry",
-            "POST sources/:source/launches/:launch/cancel"
+            "POST sources/:source/launches/:launch/cancel",
+            "GET sources/:source/assistant",
+            "POST sources/:source/assistant",
+            "POST sources/:source/assistant/policy",
+            "POST sources/:source/assistant/drafts/:draft/accept",
+            "POST sources/:source/assistant/drafts/:draft/discard",
+            "POST sources/:source/assistant/proposals/:proposal/start",
+            "POST sources/:source/assistant/proposals/:proposal/dismiss"
         ],
         "client": "owner",
         "access": "owner",
