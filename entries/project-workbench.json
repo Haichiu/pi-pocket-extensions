@@ -1,0 +1,60 @@
+{
+    "name": "project-workbench",
+    "title": "Project workbench",
+    "description": "An owner-only project workbench: reads the bound session's package.json and Git metadata, runs Git status/worktree queries, and starts npm scripts only after owner confirmation. Scripts and npm may read files, secrets, environment variables and network services with the server user's rights. Stores preview settings in a namespaced document and bounded run results under the data folder. Preview links are user-entered loopback HTTP(S); no service discovery or external requests by the extension.",
+    "tags": ["project", "git", "npm", "scripts", "preview"],
+    "author": {
+        "name": "Tanner Middleton",
+        "github": "TannerMidd"
+    },
+    "version": "0.1.0",
+    "source": {
+        "repo": "TannerMidd/pi-pocket-project-workbench",
+        "commit": "59ce1d3f162c6bb20cad58e127f0d240e5f18848",
+        "path": ""
+    },
+    "files": [
+        {
+            "name": "project-workbench.ts",
+            "sha256": "7bf4a43c3a6c797f94c365d9f110fe67dc4072d891b9599c5dc8bdd275484b2f",
+            "size": 16975
+        },
+        {
+            "name": "project-workbench/index.js",
+            "sha256": "080c262e3ba3045b4ac2505b81747fadfdaa3df7c44cdd15547fd810909b97bd",
+            "size": 16657
+        },
+        {
+            "name": "project-workbench/runtime.ts",
+            "sha256": "07b3890d5376e50f1c3ffc50198a84965b347ad5ef9ae24a46f97a72519da19a",
+            "size": 11157
+        },
+        {
+            "name": "project-workbench/style.css",
+            "sha256": "4e437239a25f08f846699b7d27a325dde5dd57b879fc1ebbe631d780c29947b9",
+            "size": 3226
+        }
+    ],
+    "pocketApi": 1,
+    "minPocket": "0.14.0",
+    "declares": {
+        "extensions": ["project-workbench"],
+        "tools": [],
+        "readOnlyTools": [],
+        "hooks": [],
+        "sections": [],
+        "wraps": [],
+        "routes": [
+            "GET binding/:session",
+            "GET project/:session",
+            "GET latest/:session",
+            "POST prepare/:session",
+            "POST run/:session",
+            "POST abort/:session"
+        ],
+        "client": "owner",
+        "access": "owner",
+        "commands": ["global workbench-bind", "global workbench-preview"]
+    },
+    "revoked": []
+}
