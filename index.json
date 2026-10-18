@@ -4,6 +4,149 @@
     "repo": "https://github.com/TannerMidd/pi-pocket-extensions",
     "extensions": [
         {
+            "name": "agent-recipes",
+            "title": "Agent recipes",
+            "description": "Save owner-managed, read-only team recipes and start approved roles as linked sessions. Uses only module documents, the owner's allowed-model list, and the experimental linked-session APIs. Reads no outside files or secrets and makes no direct network calls or processes. Linked agents can use their normal tools and model providers; prompts are not a sandbox.",
+            "tags": [
+                "agents",
+                "recipes",
+                "review",
+                "teams"
+            ],
+            "author": {
+                "name": "Tanner Middleton",
+                "github": "TannerMidd"
+            },
+            "version": "0.1.0",
+            "source": {
+                "repo": "TannerMidd/pi-pocket-agent-recipes",
+                "commit": "5233451f5ea06559811a9d6910ec0fb84b881a82",
+                "path": ""
+            },
+            "files": [
+                {
+                    "name": "agent-recipes.ts",
+                    "sha256": "82be721394ff21454b16f8cf8388e1d4a52a1005f7f67a5b59cd21c17e07db67",
+                    "size": 20104
+                },
+                {
+                    "name": "agent-recipes/domain.ts",
+                    "sha256": "144029c0cae11718ab052b4a998794d0e552ebed7a9efcb42fb165ba1eb2cf93",
+                    "size": 9241
+                },
+                {
+                    "name": "agent-recipes/index.js",
+                    "sha256": "8a2bf4493813192648baf0d7f8cd464a0bd2bec8a3b89e21cb9b6ba6f858daab",
+                    "size": 21534
+                },
+                {
+                    "name": "agent-recipes/style.css",
+                    "sha256": "9431e0075d8f332c0879551dc087da525f7a38d6dfddd349066c55fdfe967850",
+                    "size": 3934
+                }
+            ],
+            "pocketApi": 1,
+            "minPocket": "0.14.0",
+            "declares": {
+                "extensions": [
+                    "agent-recipes"
+                ],
+                "tools": [
+                    "agent_recipes_launch",
+                    "agent_recipes_status"
+                ],
+                "readOnlyTools": [
+                    "agent_recipes_status"
+                ],
+                "hooks": [],
+                "sections": [],
+                "wraps": [],
+                "routes": [
+                    "GET state"
+                ],
+                "client": "owner",
+                "access": "owner",
+                "commands": [
+                    "global agent-recipes-sync",
+                    "global agent-recipes-save",
+                    "global agent-recipes-authorize",
+                    "global agent-recipes-cancel"
+                ]
+            },
+            "revoked": []
+        },
+        {
+            "name": "decision-notebook",
+            "title": "Decision notebook",
+            "description": "Keep conversation decisions, with Pi proposals and owner-only human acceptance commands and a read-only notebook page. Stores namespaced Durable documents; reads no outside files or secrets, starts no processes, and makes no network calls.",
+            "tags": [
+                "decisions",
+                "notes",
+                "conversation",
+                "approval"
+            ],
+            "author": {
+                "name": "Tanner Middleton",
+                "github": "TannerMidd"
+            },
+            "version": "0.1.0",
+            "source": {
+                "repo": "TannerMidd/pi-pocket-decision-notebook",
+                "commit": "e83a43fb977ee4674bf6583c51066bb2ceef36ee",
+                "path": ""
+            },
+            "files": [
+                {
+                    "name": "decision-notebook.ts",
+                    "sha256": "0cbe534a35a8577e7e79707953ef48652d7753d373ea441bf40a70cd2b62eea0",
+                    "size": 11026
+                },
+                {
+                    "name": "decision-notebook/index.js",
+                    "sha256": "42ada03c90cbd2ede6cff2b9d89775dd60fecf5c078a51edbb8ce6f62d94f5f2",
+                    "size": 18656
+                },
+                {
+                    "name": "decision-notebook/state.ts",
+                    "sha256": "c8e4568f0196bbca7503358b136059c79b28a23579de03a22ed05cb8c820e7b7",
+                    "size": 7983
+                },
+                {
+                    "name": "decision-notebook/style.css",
+                    "sha256": "664d62b8b073e1ed63cf0ac97264e493b56dc90ac019e6622fcf5d9b21a1d935",
+                    "size": 3320
+                }
+            ],
+            "pocketApi": 1,
+            "minPocket": "0.14.0",
+            "declares": {
+                "extensions": [
+                    "decision-notebook"
+                ],
+                "tools": [
+                    "decision_notebook_propose",
+                    "decision_notebook_list"
+                ],
+                "readOnlyTools": [
+                    "decision_notebook_list"
+                ],
+                "hooks": [],
+                "sections": [],
+                "wraps": [],
+                "routes": [
+                    "GET notebook/:conversation"
+                ],
+                "client": "owner",
+                "access": "owner",
+                "commands": [
+                    "conversation decision-notebook-open",
+                    "conversation decision-notebook-accept",
+                    "conversation decision-notebook-supersede"
+                ]
+            },
+            "revoked": []
+        },
+        {
             "name": "mcp",
             "title": "MCP servers",
             "description": "MCP servers for Pi: Pi Pocket connects to the stdio and HTTP servers in Pi's own mcp.json, and Pi finds and calls their tools with mcp_tools, mcp_call, and mcp_call_read_only. Each server is a program that runs with the owner's rights, and Lancet Guard does not check the calls of its tools. A server runs only after the owner turns it on in the MCP page, and again after each change to its entry. The module reads ~/.pi/agent/mcp.json and the variables and commands that its entries name, and keeps its settings and OAuth tokens in ~/.pi-pocket/mcp/.",
@@ -89,6 +232,77 @@
                 "client": "owner",
                 "access": "owner"
             }
+        },
+        {
+            "name": "project-workbench",
+            "title": "Project workbench",
+            "description": "An owner-only project workbench: reads the bound session's package.json and Git metadata, runs Git status/worktree queries, and starts npm scripts only after owner confirmation. Scripts and npm may read files, secrets, environment variables and network services with the server user's rights. Stores preview settings in a namespaced document and bounded run results under the data folder. Preview links are user-entered loopback HTTP(S); no service discovery or external requests by the extension.",
+            "tags": [
+                "project",
+                "git",
+                "npm",
+                "scripts",
+                "preview"
+            ],
+            "author": {
+                "name": "Tanner Middleton",
+                "github": "TannerMidd"
+            },
+            "version": "0.1.0",
+            "source": {
+                "repo": "TannerMidd/pi-pocket-project-workbench",
+                "commit": "59ce1d3f162c6bb20cad58e127f0d240e5f18848",
+                "path": ""
+            },
+            "files": [
+                {
+                    "name": "project-workbench.ts",
+                    "sha256": "7bf4a43c3a6c797f94c365d9f110fe67dc4072d891b9599c5dc8bdd275484b2f",
+                    "size": 16975
+                },
+                {
+                    "name": "project-workbench/index.js",
+                    "sha256": "080c262e3ba3045b4ac2505b81747fadfdaa3df7c44cdd15547fd810909b97bd",
+                    "size": 16657
+                },
+                {
+                    "name": "project-workbench/runtime.ts",
+                    "sha256": "07b3890d5376e50f1c3ffc50198a84965b347ad5ef9ae24a46f97a72519da19a",
+                    "size": 11157
+                },
+                {
+                    "name": "project-workbench/style.css",
+                    "sha256": "4e437239a25f08f846699b7d27a325dde5dd57b879fc1ebbe631d780c29947b9",
+                    "size": 3226
+                }
+            ],
+            "pocketApi": 1,
+            "minPocket": "0.14.0",
+            "declares": {
+                "extensions": [
+                    "project-workbench"
+                ],
+                "tools": [],
+                "readOnlyTools": [],
+                "hooks": [],
+                "sections": [],
+                "wraps": [],
+                "routes": [
+                    "GET binding/:session",
+                    "GET project/:session",
+                    "GET latest/:session",
+                    "POST prepare/:session",
+                    "POST run/:session",
+                    "POST abort/:session"
+                ],
+                "client": "owner",
+                "access": "owner",
+                "commands": [
+                    "global workbench-bind",
+                    "global workbench-preview"
+                ]
+            },
+            "revoked": []
         },
         {
             "name": "subscription-usage",
