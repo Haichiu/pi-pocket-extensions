@@ -88,7 +88,7 @@
         {
             "name": "decision-notebook",
             "title": "Decision notebook",
-            "description": "Keep conversation decisions, with Pi proposals and owner-only human acceptance commands and a read-only notebook page. Stores namespaced Durable documents; reads no outside files or secrets, starts no processes, and makes no network calls.",
+            "description": "Keep conversation decisions with Pi proposals and direct owner review, acceptance, and supersession. Uses only this module's Durable documents and public Pocket APIs; no outside files, secrets, processes, or network services.",
             "tags": [
                 "decisions",
                 "notes",
@@ -99,36 +99,31 @@
                 "name": "Tanner Middleton",
                 "github": "TannerMidd"
             },
-            "version": "0.1.0",
+            "version": "0.2.0",
             "source": {
                 "repo": "TannerMidd/pi-pocket-decision-notebook",
-                "commit": "e83a43fb977ee4674bf6583c51066bb2ceef36ee",
+                "commit": "529619033a65604a17c004f162854090c76fcc58",
                 "path": ""
             },
             "files": [
                 {
                     "name": "decision-notebook.ts",
-                    "sha256": "0cbe534a35a8577e7e79707953ef48652d7753d373ea441bf40a70cd2b62eea0",
-                    "size": 11026
+                    "sha256": "77e5eab6ef79ad54eaedc1e7f0bd1c0469adcaf6f4f8562d145fca5c301a32bb",
+                    "size": 22849
                 },
                 {
                     "name": "decision-notebook/index.js",
-                    "sha256": "42ada03c90cbd2ede6cff2b9d89775dd60fecf5c078a51edbb8ce6f62d94f5f2",
-                    "size": 18656
-                },
-                {
-                    "name": "decision-notebook/state.ts",
-                    "sha256": "c8e4568f0196bbca7503358b136059c79b28a23579de03a22ed05cb8c820e7b7",
-                    "size": 7983
+                    "sha256": "c911a87fb6cea7203cf3d6cdb7e3a9b19065bdc5f57ed393b289974cd54d1fbd",
+                    "size": 46479
                 },
                 {
                     "name": "decision-notebook/style.css",
-                    "sha256": "664d62b8b073e1ed63cf0ac97264e493b56dc90ac019e6622fcf5d9b21a1d935",
-                    "size": 3320
+                    "sha256": "df0f25631c8b31f49a33a9ed4610014b8b7f4b8815a4062a6bb59d79b65e833d",
+                    "size": 5627
                 }
             ],
             "pocketApi": 1,
-            "minPocket": "0.14.0",
+            "minPocket": "0.16.0",
             "declares": {
                 "extensions": [
                     "decision-notebook"
@@ -144,7 +139,8 @@
                 "sections": [],
                 "wraps": [],
                 "routes": [
-                    "GET notebook/:conversation"
+                    "GET notebook/:source",
+                    "POST notebook/:source"
                 ],
                 "client": "owner",
                 "access": "owner",
