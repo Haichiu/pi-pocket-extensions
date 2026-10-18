@@ -1,0 +1,55 @@
+{
+    "name": "agent-recipes",
+    "title": "Agent recipes",
+    "description": "Save owner-managed, read-only team recipes and start approved roles as linked sessions. Uses only module documents, the owner's allowed-model list, and the experimental linked-session APIs. Reads no outside files or secrets and makes no direct network calls or processes. Linked agents can use their normal tools and model providers; prompts are not a sandbox.",
+    "tags": ["agents", "recipes", "review", "teams"],
+    "author": { "name": "Tanner Middleton", "github": "TannerMidd" },
+    "version": "0.1.0",
+    "source": {
+        "repo": "TannerMidd/pi-pocket-agent-recipes",
+        "commit": "5233451f5ea06559811a9d6910ec0fb84b881a82",
+        "path": ""
+    },
+    "files": [
+        {
+            "name": "agent-recipes.ts",
+            "sha256": "82be721394ff21454b16f8cf8388e1d4a52a1005f7f67a5b59cd21c17e07db67",
+            "size": 20104
+        },
+        {
+            "name": "agent-recipes/domain.ts",
+            "sha256": "144029c0cae11718ab052b4a998794d0e552ebed7a9efcb42fb165ba1eb2cf93",
+            "size": 9241
+        },
+        {
+            "name": "agent-recipes/index.js",
+            "sha256": "8a2bf4493813192648baf0d7f8cd464a0bd2bec8a3b89e21cb9b6ba6f858daab",
+            "size": 21534
+        },
+        {
+            "name": "agent-recipes/style.css",
+            "sha256": "9431e0075d8f332c0879551dc087da525f7a38d6dfddd349066c55fdfe967850",
+            "size": 3934
+        }
+    ],
+    "pocketApi": 1,
+    "minPocket": "0.14.0",
+    "declares": {
+        "extensions": ["agent-recipes"],
+        "tools": ["agent_recipes_launch", "agent_recipes_status"],
+        "readOnlyTools": ["agent_recipes_status"],
+        "hooks": [],
+        "sections": [],
+        "wraps": [],
+        "routes": ["GET state"],
+        "client": "owner",
+        "access": "owner",
+        "commands": [
+            "global agent-recipes-sync",
+            "global agent-recipes-save",
+            "global agent-recipes-authorize",
+            "global agent-recipes-cancel"
+        ]
+    },
+    "revoked": []
+}
