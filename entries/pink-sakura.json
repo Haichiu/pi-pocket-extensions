@@ -1,0 +1,38 @@
+{
+    "kind": "theme",
+    "name": "pink-sakura",
+    "title": "Pink Sakura",
+    "description": "Light Pink with a seamless 1024 px sakura wallpaper: pale blossoms tile in the gaps between the tiled windows and show through them.",
+    "tags": ["light", "pink", "sakura", "wallpaper", "pastel"],
+    "author": { "name": "Sum", "github": "sumofsum" },
+    "version": "1.0.0",
+    "source": {
+        "repo": "sumofsum/pi-pocket-theme-pink-sakura",
+        "commit": "a667c8b534d214f0fb917d2473e3b24d3b1aac44",
+        "path": ""
+    },
+    "files": [
+        {
+            "name": "pink-sakura/theme.json",
+            "sha256": "678b8288aaae96a27d59669eb4fe7587be70227f245b1edf6ca290ec7ea8a2bb",
+            "size": 276
+        },
+        {
+            "name": "pink-sakura/colors.toml",
+            "sha256": "eab2ab3d821bf828f1116a7a18a38e56ba4c7da2359889ee63431aeb0f6b3d57",
+            "size": 860
+        },
+        {
+            "name": "pink-sakura/theme.css",
+            "sha256": "faae881e6924c95211d181e3d6660307d42eebe17e52972dcb5eb3c4dcacf026",
+            "size": 1932
+        },
+        {
+            "name": "pink-sakura/images/sakura-tile.png",
+            "sha256": "e979c5471066b228129eb34bae90f0da4b4b1d5fa1bf68c305445cd08074c9d2",
+            "size": 155774
+        }
+    ],
+    "themeApi": 1,
+    "minPocket": "0.14.0"
+}
