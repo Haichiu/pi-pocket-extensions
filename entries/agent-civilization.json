@@ -2,14 +2,7 @@
     "name": "agent-civilization",
     "title": "Agent Civilization",
     "description": "Agent Civilization: every agent at work as a living pixel-art town, with the files, shells, sites, models, MCP servers, and messages they share. It watches the tool calls and messages of every session, shows the owner only the sessions that Pi Pocket confirms they may see, and keeps a short history in its own data folder. No network.",
-    "tags": [
-        "visualization",
-        "agents",
-        "subagents",
-        "game",
-        "pixel-art",
-        "activity"
-    ],
+    "tags": ["visualization", "agents", "subagents", "game", "pixel-art", "activity"],
     "author": {
         "name": "Tanner Middleton",
         "github": "TannerMidd"
@@ -80,25 +73,13 @@
     "pocketApi": 2,
     "minPocket": "0.19.0",
     "declares": {
-        "extensions": [
-            "agent-civilization"
-        ],
+        "extensions": ["agent-civilization"],
         "tools": [],
         "readOnlyTools": [],
-        "hooks": [
-            "beforeTool",
-            "afterTool",
-            "beforeRequest",
-            "afterResponse",
-            "onYield"
-        ],
+        "hooks": ["beforeTool", "afterTool", "beforeRequest", "afterResponse", "onYield"],
         "sections": [],
         "wraps": [],
-        "routes": [
-            "GET world",
-            "GET meta/:source",
-            "POST reset"
-        ],
+        "routes": ["GET world", "GET meta/:source", "POST reset"],
         "client": "owner",
         "access": "owner",
         "commands": []
