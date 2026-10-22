@@ -1,0 +1,93 @@
+{
+    "name": "agent-civilization",
+    "title": "Agent Civilization",
+    "description": "Agent Civilization: every agent at work as a living pixel-art town, with the files, shells, sites, models, MCP servers, and messages they share, and every task as a building that its own work puts up. It watches the tool calls and messages of every session, shows the owner only the sessions that Pi Pocket confirms they may see, and keeps a short history in its own data folder. No network.",
+    "tags": ["visualization", "agents", "subagents", "game", "pixel-art", "activity"],
+    "author": {
+        "name": "Tanner Middleton",
+        "github": "TannerMidd"
+    },
+    "version": "1.1.0",
+    "source": {
+        "repo": "TannerMidd/pi-pocket-agent-civilization",
+        "commit": "e5f8cf31d711cfb081dd5a39e68abfaf84831587",
+        "path": ""
+    },
+    "files": [
+        {
+            "name": "agent-civilization.ts",
+            "sha256": "63464a55c20a047ef0a687df1344de3ef0fc0b30d26afd6b40c3b5b0deacc88d",
+            "size": 53517
+        },
+        {
+            "name": "agent-civilization/demo.js",
+            "sha256": "446b043e11c1112b0e6fc5f01e39bb7b93c4a4c2f4c974b526f7ad737175189d",
+            "size": 20483
+        },
+        {
+            "name": "agent-civilization/fonts/CivPixelStart.woff2",
+            "sha256": "79607ab66a04239b6ff9c24a75396fef9af805e88f8fa5e64faad812ecf01903",
+            "size": 29752
+        },
+        {
+            "name": "agent-civilization/fonts/OFL-PressStart2P.txt",
+            "sha256": "705960c3281a5765ecc0b59bd4ed7ca59eed165748076bc2fc3e8fdbfeb944b0",
+            "size": 4413
+        },
+        {
+            "name": "agent-civilization/fonts/OFL-VT323.txt",
+            "sha256": "27d9af34210253e7ca1251fbace86c6f65b40031d6ce1a75493a1b2093631298",
+            "size": 4367
+        },
+        {
+            "name": "agent-civilization/fonts/VT323.woff2",
+            "sha256": "3123a7c06455c1c52993d6f475c32ce2e937e08d175cf8214ddbfb7600c6eeb5",
+            "size": 32096
+        },
+        {
+            "name": "agent-civilization/index.js",
+            "sha256": "951475f8b3b21fb317d3972cab5c57dd16984687d462277abc2043a0a697e755",
+            "size": 66743
+        },
+        {
+            "name": "agent-civilization/pixels.js",
+            "sha256": "cb74e300390f7542900332c9f70d5510516457ce56601c8720d85e8d4879211e",
+            "size": 50130
+        },
+        {
+            "name": "agent-civilization/sites.js",
+            "sha256": "575fe4d1005be04e3f10667dd2b7b0504f1b362c29bd814a1eca95c0a520c802",
+            "size": 73022
+        },
+        {
+            "name": "agent-civilization/sound.js",
+            "sha256": "d2a0edb35eeee3c56ec82a09d657e3b79d11b025bedd54bb78cae7b7766757e0",
+            "size": 8827
+        },
+        {
+            "name": "agent-civilization/style.css",
+            "sha256": "af27c96515e7f01f467a7b03f351c7dfe2163971b417fca472747bc680884515",
+            "size": 16544
+        },
+        {
+            "name": "agent-civilization/town.js",
+            "sha256": "0ece5762cc46f9c70c08b0a1863f096fe72b7aefe97ffb9ba1f89dc9363cde86",
+            "size": 159242
+        }
+    ],
+    "pocketApi": 2,
+    "minPocket": "0.19.0",
+    "declares": {
+        "extensions": ["agent-civilization"],
+        "tools": [],
+        "readOnlyTools": [],
+        "hooks": ["beforeTool", "afterTool", "beforeRequest", "afterResponse", "onYield"],
+        "sections": [],
+        "wraps": [],
+        "routes": ["GET world", "GET meta/:source", "POST reset"],
+        "client": "owner",
+        "access": "owner",
+        "commands": []
+    },
+    "revoked": []
+}
