@@ -251,6 +251,72 @@
             "minPocket": "0.14.0"
         },
         {
+            "name": "change-atlas",
+            "title": "Change Atlas",
+            "description": "Change Atlas: Pi maps a pull request, branch, commit range, or local changes into an interactive visual report. It reads a git repository (the session's folder, or the folder that Pi names) with `git` (for a pull request also `gh` and `git fetch`, which contact GitHub), and writes reports and fetched PR commits to `change-atlas/` in the data folder. Diff excerpts go to the model provider, and a published report goes to everyone who sees the session. It sends nothing to any other host.",
+            "tags": [
+                "review",
+                "git",
+                "pull-request",
+                "diff",
+                "visualization",
+                "report",
+                "ste"
+            ],
+            "author": {
+                "name": "Tanner Middleton",
+                "github": "TannerMidd"
+            },
+            "version": "1.0.0",
+            "source": {
+                "repo": "TannerMidd/pi-pocket-change-atlas",
+                "commit": "3430694ded674654f0023b32e12b856d15a963a0",
+                "path": ""
+            },
+            "files": [
+                {
+                    "name": "change-atlas.ts",
+                    "sha256": "a02a58aa7c309f72892d08127d2409ef973f6b489da6ba2c5fd0c7d79f818bb6",
+                    "size": 71444
+                },
+                {
+                    "name": "change-atlas/index.js",
+                    "sha256": "530e41fde5cfcea1772ded16714cbcbb3651fa160a5a3b667735b549bf19951e",
+                    "size": 1287
+                },
+                {
+                    "name": "change-atlas/report.css",
+                    "sha256": "85591c58c012556cd3780a4e53bd00ce70ad8e27d62863b6d807a1e5c6adb8e5",
+                    "size": 27051
+                },
+                {
+                    "name": "change-atlas/report.js",
+                    "sha256": "e504283f5b1b874df8a999b81368ea2fb1e4d36c6537fa300f0ff6bcf0d993ee",
+                    "size": 89125
+                }
+            ],
+            "pocketApi": 2,
+            "minPocket": "0.19.0",
+            "declares": {
+                "extensions": [
+                    "change-atlas"
+                ],
+                "tools": [
+                    "change_atlas_scan",
+                    "change_atlas_publish"
+                ],
+                "readOnlyTools": [],
+                "hooks": [],
+                "sections": [],
+                "wraps": [],
+                "routes": [],
+                "client": "owner",
+                "access": "owner",
+                "commands": []
+            },
+            "revoked": []
+        },
+        {
             "name": "charm-hyper",
             "title": "Charm Hyper",
             "description": "Charm Hyper: adds Charm's Hyper models to Pi Pocket. It reads the hyper API key from Pi's sign-ins, sends it only to hyper.charm.land, and refreshes the model catalog from Hyper.",
