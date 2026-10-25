@@ -572,6 +572,70 @@
             }
         },
         {
+            "name": "personas",
+            "title": "Pi Pocket Personas",
+            "description": "Personas are saved system-prompt instructions for Pi Pocket. Choose one for a session — a terse reviewer, a patient teacher, a teammate who follows your house rules — and Pi follows it from the next request. Edit them on a page, pick one from the message box or status line, and set a default for new sessions. A session can have one, or none; the text is added to Pi's system prompt for that session only.",
+            "tags": [
+                "persona",
+                "system-prompt",
+                "prompt"
+            ],
+            "author": {
+                "name": "Edison Chong",
+                "github": "edisoncks"
+            },
+            "version": "1.0.1",
+            "source": {
+                "repo": "edisoncks/pi-pocket-personas",
+                "commit": "69d51ed4fc47d6c3d98bcf3e6c0230cacc87f9fc",
+                "path": ""
+            },
+            "files": [
+                {
+                    "name": "personas.ts",
+                    "sha256": "ff594713e612a4984d2ae0c7c524735115cbb28577a1d6610681eda898238cf6",
+                    "size": 15367
+                },
+                {
+                    "name": "personas/index.js",
+                    "sha256": "6152f8d3f9aba5f2113a1477e7ea7de93881424aff707e26774261c04e991c75",
+                    "size": 26985
+                },
+                {
+                    "name": "personas/style.css",
+                    "sha256": "7213d7684c7699d8c2f407745bf6fc9464741f1b9ae6319cf33b32a4f1ff20e2",
+                    "size": 5003
+                }
+            ],
+            "pocketApi": 1,
+            "minPocket": "0.20.0",
+            "declares": {
+                "extensions": [
+                    "personas"
+                ],
+                "tools": [],
+                "readOnlyTools": [],
+                "hooks": [],
+                "sections": [
+                    "persona"
+                ],
+                "wraps": [],
+                "routes": [
+                    "GET state/:session",
+                    "GET catalog",
+                    "POST default",
+                    "POST personas",
+                    "DELETE personas/:id",
+                    "PUT active/:session"
+                ],
+                "client": "owner",
+                "access": "owner",
+                "commands": [
+                    "global persona-use"
+                ]
+            }
+        },
+        {
             "kind": "theme",
             "name": "pink-sakura",
             "title": "Pink Sakura",
