@@ -251,6 +251,63 @@
             "minPocket": "0.14.0"
         },
         {
+            "name": "browser-sign-in",
+            "title": "Browser sign-in",
+            "description": "Browser sign-in: when Pi's browser is at a sign-in, the person types the username and password, or a one-time code, on a card in the chat, and the values go straight into the page. Pi never sees them, and neither does the transcript. For a CAPTCHA or a sign-in to approve on a phone, Pi asks the person to do it in the Browser panel and tap Done.",
+            "tags": [
+                "browser",
+                "sign-in",
+                "passwords",
+                "security"
+            ],
+            "author": {
+                "name": "picassio",
+                "github": "picassio"
+            },
+            "version": "1.0.1",
+            "source": {
+                "repo": "picassio/pi-pocket-browser-sign-in",
+                "commit": "82b838badc897b9ee13443aeca59881e943d706b",
+                "path": ""
+            },
+            "files": [
+                {
+                    "name": "browser-sign-in.ts",
+                    "sha256": "11147dea9d4802930a2112aca2cadf1d4d67b7f62891074149da901711a0dd06",
+                    "size": 17362
+                },
+                {
+                    "name": "browser-sign-in.js",
+                    "sha256": "9db35b6e659efb4b8a1a8e1c5bcd95883acdc8e3a773ef3a8b06a5c7a681fc86",
+                    "size": 1149
+                }
+            ],
+            "pocketApi": 2,
+            "minPocket": "0.22.0",
+            "declares": {
+                "extensions": [
+                    "browser-sign-in"
+                ],
+                "tools": [
+                    "browser_sign_in",
+                    "browser_ask_code",
+                    "browser_ask_person"
+                ],
+                "readOnlyTools": [],
+                "hooks": [
+                    "beforeTool"
+                ],
+                "sections": [
+                    "browser_sign_in"
+                ],
+                "wraps": [],
+                "routes": [],
+                "client": "owner",
+                "access": "owner"
+            },
+            "revoked": []
+        },
+        {
             "name": "change-atlas",
             "title": "Change Atlas",
             "description": "Change Atlas: Pi maps a pull request, branch, commit range, or local changes into an interactive visual report. It reads a git repository (the session's folder, or the folder that Pi names) with `git` (for a pull request also `gh` and `git fetch`, which contact GitHub), and writes reports and fetched PR commits to `change-atlas/` in the data folder. Diff excerpts go to the model provider, and a published report goes to everyone who sees the session. It sends nothing to any other host.",
@@ -812,6 +869,81 @@
             "revoked": []
         },
         {
+            "name": "secrets",
+            "title": "Secrets",
+            "description": "Secrets: API keys and tokens that Pi uses without seeing them. The owner keeps them in Menu → Secrets; a bash command that names one ($NPM_TOKEN) runs with its value, and output that shows a value shows [secret NPM_TOKEN] instead. Pi can list them, ask the owner for one on a card with a hidden field, and keep a command's output as one.",
+            "tags": [
+                "secrets",
+                "api-keys",
+                "tokens",
+                "security",
+                "bash"
+            ],
+            "author": {
+                "name": "picassio",
+                "github": "picassio"
+            },
+            "version": "1.0.1",
+            "source": {
+                "repo": "picassio/pi-pocket-secrets",
+                "commit": "f69dce80720d31a91389df97e848d3cc416a3344",
+                "path": ""
+            },
+            "files": [
+                {
+                    "name": "secrets.ts",
+                    "sha256": "514753c8ad371f7b685a33f416c4ada6cdee0064668afecf3fd5458b3b5c2eff",
+                    "size": 25203
+                },
+                {
+                    "name": "secrets/index.js",
+                    "sha256": "ffe8956c1edbfb7e61c8a79d290794e0b42d5f025565ac0ee9c83831ee049dba",
+                    "size": 11928
+                },
+                {
+                    "name": "secrets/secrets.css",
+                    "sha256": "460a927a83127e2a5a88b118aeac46281c2bb5aabf714bc6fb2f8f34f8a35948",
+                    "size": 750
+                },
+                {
+                    "name": "secrets/store.ts",
+                    "sha256": "271a4ab75579c2b15aa5876483f4e9240a9ad91bfb606eee8f25d1b74cb8fbf2",
+                    "size": 12699
+                }
+            ],
+            "pocketApi": 2,
+            "minPocket": "0.22.0",
+            "declares": {
+                "extensions": [
+                    "secrets"
+                ],
+                "tools": [
+                    "secrets_list",
+                    "secret_request",
+                    "secret_save"
+                ],
+                "readOnlyTools": [
+                    "secrets_list"
+                ],
+                "hooks": [
+                    "beforeTool"
+                ],
+                "sections": [
+                    "secrets"
+                ],
+                "wraps": [],
+                "routes": [
+                    "POST hello",
+                    "GET secrets",
+                    "PUT secrets/:name",
+                    "DELETE secrets/:name"
+                ],
+                "client": "owner",
+                "access": "owner"
+            },
+            "revoked": []
+        },
+        {
             "name": "subscription-usage",
             "title": "Subscription usage",
             "description": "Subscription usage: a page on the rail with how much of your Claude, ChatGPT (Codex), OpenCode Go, Grok, Z.ai, and MiniMax plans is used, and when each limit resets, plus the DeepSeek balance, and a /usage-plans command that posts the same usage as a card in chat. The server asks each service with the sign-ins already on this machine, and sends each key only to its own service (anthropic.com, opencode.ai, grok.com, z.ai, minimax.io, deepseek.com). No key or token reaches the browser.",
@@ -943,10 +1075,10 @@
                 "mistral"
             ],
             "author": {
-                "name": "piromagnus",
+                "name": "Pierre Marrec",
                 "github": "piromagnus"
             },
-            "version": "1.4.0",
+            "version": "1.4.1",
             "source": {
                 "repo": "piromagnus/pi-pocket-voice-message",
                 "commit": "617f70d17902d902e3bc3a2b0ee413a1585b959c",
@@ -992,11 +1124,6 @@
                     "name": "voice-message/requirements.lock",
                     "sha256": "5c72d68ce61e069ad9ff258e7452ec1e280c211aa8336964bdb7a0cd05ceab41",
                     "size": 27179
-                },
-                {
-                    "name": "voice-message/requirements.in",
-                    "sha256": "7ae77ecafc5a114aa9664833a79f8749050c45d6eb3318e8b8c5da8600936ec3",
-                    "size": 33
                 }
             ],
             "pocketApi": 1,
